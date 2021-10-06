@@ -30,3 +30,6 @@
 *.exe
 *.out
 *.app
+
+# Build directory in which CMake generates files
+build/
