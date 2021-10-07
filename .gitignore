@@ -33,6 +33,7 @@
 
 # Build directory in which CMake generates files
 build/
+tests/build/
 
 # Visual Studio Code
 .vscode
