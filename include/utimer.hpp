@@ -6,6 +6,8 @@
 
 /**
  * @brief RAII Timer that prints on cout the time elapsed since its creation and a message.
+ * The time is measured in microseconds.
+ *
  */
 class UTimer
 {
