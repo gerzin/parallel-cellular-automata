@@ -33,7 +33,7 @@ class CellularAutomaton
     /**
      * @brief Grid of the C.A.
      */
-    T[][] grid;
+    T grid[][];
 
     /**
      * @brief Number of columns of the grid.
@@ -76,14 +76,14 @@ class CellularAutomaton
     virtual std::tuple<T, T, T, T, T, T, T, T> get_neighborhood(int row, int col) const
     {
         T top_left, top, top_right, left, right, bottom_left, bottom, bottom_right;
-        top_left = grid[(row - 1 + rows) % rows][(col - 1 + ncols) % ncols];
-        top = grid[(row - 1 + nrows) % nrows][col];
-        top_right = grid[(row - 1 + nrows) % nrows][(col + 1) % ncols];
-        left = grid[row][(col - 1 + ncols) % ncols];
-        right = grid[row][(col + 1) % ncols];
-        bottom_left = grid[(row + 1) % nrows][(col - 1 + ncols) % ncols];
-        bottom = grid[(row + 1) % nrows][col];
-        bottom_right = grid[(row + 1) % nrows][(col + 1) % ncols];
+        top_left = grid[(row - 1 + rows) % rows][(col - 1 + columns) % columns];
+        top = grid[(row - 1 + rows) % rows][col];
+        top_right = grid[(row - 1 + rows) % rows][(col + 1) % columns];
+        left = grid[row][(col - 1 + columns) % columns];
+        right = grid[row][(col + 1) % columns];
+        bottom_left = grid[(row + 1) % rows][(col - 1 + columns) % columns];
+        bottom = grid[(row + 1) % rows][col];
+        bottom_right = grid[(row + 1) % rows][(col + 1) % columns];
         return std::make_tuple(top_left, top, top_right, left, right, bottom_left, bottom, bottom_right);
     };
 };
