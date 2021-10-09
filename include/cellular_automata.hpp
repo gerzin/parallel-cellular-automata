@@ -22,14 +22,15 @@ class CellularAutomaton
     /**
      * @brief Run the simulation for a given number of steps.
      *
-     * @param steps number of simulation steps to run.
+     * @param steps number of simulation steps to run (default 1).
      * @post grid contains the result of the simulation and generation = generation + steps.
      */
-    virtual void simulate(unsigned steps);
+    virtual void simulate(unsigned steps = 1)
+    {
+        ;
+    }
 
   protected:
-    int a = 5;
-
     /**
      * @brief Grid of the C.A.
      */
