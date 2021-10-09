@@ -23,10 +23,11 @@ else()
     add_compile_options(-g -O3)
 endif()
 
-# the "unit/" will be prepended in the for loop
+# the "unit/" part of the path will be prepended in the for loop
 set(unit_test_targets 
     test_library_imports
     test_catch_library
+    test_get_neighborhood
 )
 
 foreach(TARGET ${unit_test_targets})
