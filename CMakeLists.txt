@@ -13,12 +13,14 @@ set(CMAKE_CXX_STANDARD_REQUIRED True)
 if (MSVC)
     # warning level 4 and all warnings as errors
     add_compile_options(/W4 /WX)
+    # speed optimization
+    add_compile_options(/Ox)
 else()
     # lots of warnings and all warnings as errors
     add_compile_options(-Wall -Wextra -pedantic -Werror)
     add_compile_options(-g -O3)
 endif()
 
-add_library(parallelcellularautomata STATIC include/utimer.hpp src/utimer.cpp)
+add_library(parallelcellularautomata STATIC include/utimer.hpp src/utimer.cpp include/cellular_automata.hpp include/sequential_automaton.hpp)
 target_include_directories(parallelcellularautomata PUBLIC include)
 
