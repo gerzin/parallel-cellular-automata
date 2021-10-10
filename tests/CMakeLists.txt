@@ -26,7 +26,6 @@ endif()
 # the "unit/" part of the path will be prepended in the for loop
 set(unit_test_targets 
     test_library_imports
-    test_catch_library
     test_get_neighborhood
 )
 
