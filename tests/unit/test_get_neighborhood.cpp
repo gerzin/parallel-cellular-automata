@@ -8,7 +8,6 @@
 #define CATCH_CONFIG_MAIN
 #include <catch/catch.hpp>
 #include <cellular_automata.hpp>
-
 const size_t rows = 4;
 const size_t columns = 5;
 
@@ -51,11 +50,11 @@ TEST_CASE("The right neighborhood is computed.", "[get_neigborhood]")
     SECTION("The neighborhood is computed on a toroidal surface.")
     {
         auto [tl, t, tr, l, r, bl, b, br] = get_neighborhood<int>(0, 0);
-        REQUIRE(tl == 8);
-        REQUIRE(t == 0);
-        REQUIRE(tr == 9);
+        REQUIRE(tl == 0);
+        REQUIRE(t == 9);
+        REQUIRE(tr == 6);
         REQUIRE(l == -1);
-        REQUIRE(r == 0);
+        REQUIRE(r == -2);
         REQUIRE(bl == -2);
         REQUIRE(b == 0);
         REQUIRE(br == 1);
