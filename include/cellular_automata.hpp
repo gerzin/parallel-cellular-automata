@@ -6,6 +6,10 @@
 
 namespace ca
 {
+/**
+ * @brief Namespace containing the implementation of the sequential version.
+ *
+ */
 namespace seq
 {
 /**
@@ -14,6 +18,7 @@ namespace seq
  * This class implements a toroidal Cellular Automaton.
  *
  * @tparam T type of the cells.
+ *
  */
 template <typename T>
 class CellularAutomaton
@@ -24,28 +29,33 @@ class CellularAutomaton
      *
      * @param steps number of simulation steps to run (default 1).
      * @post grid contains the result of the simulation and generation = generation + steps.
+     *
      */
     virtual void simulate(unsigned steps = 1)
     {
-        ;
+        std::cout << steps << std::endl;
     }
 
   protected:
     /**
      * @brief Grid of the C.A.
+     *
      */
-    T grid[][];
+    T **grid;
 
     /**
      * @brief Number of columns of the grid.
+     *
      */
     const size_t columns;
     /**
      * @brief Number of rows of the grid.
+     *
      */
     const size_t rows;
     /**
      * @brief Current generation of the grid.
+     *
      */
     size_t generation;
     /**
@@ -56,6 +66,7 @@ class CellularAutomaton
      * arguments. Their order is the one returned by the get_neighborhood
      * function.
      * @see get_neighborhood
+     *
      */
     std::function<T(T, T, T, T, T, T, T, T, T)> update_function;
     /**
@@ -73,6 +84,7 @@ class CellularAutomaton
      * @param row row of the center cell.
      * @param col column of the center cell.
      * @return std::tuple<T, T, T, T, T, T, T, T> containing <TL, T, TR, L, R, BL, B, BR>
+     *
      */
     virtual std::tuple<T, T, T, T, T, T, T, T> get_neighborhood(int row, int col) const
     {
