@@ -25,6 +25,7 @@ class UTimer
      * @brief Construct a new UTimer object.
      *
      * @param m Message describing what is being computed.
+     *
      */
     UTimer(const std::string m);
     /**
@@ -33,6 +34,7 @@ class UTimer
      *
      * @param m Message describing what is being computed.
      * @param us Pointer to variable in which to put the elapsed microsecond.
+     *
      */
     UTimer(const std::string m, long *us);
     /**
