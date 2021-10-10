@@ -26,7 +26,7 @@ endif()
 # the "unit/" part of the path will be prepended in the for loop
 set(unit_test_targets 
     test_library_imports
-    test_get_neighborhood
+    test_sequential_automaton
 )
 
 foreach(TARGET ${unit_test_targets})
