@@ -75,10 +75,10 @@ TEST_CASE("The sequential cellular automaton is created.")
     const auto columns = 5;
     using managed_array = std::unique_ptr<int[]>;
     // create new grid
-    auto new_grid = std::unique_ptr<managed_array[]>(new managed_array[rows]);
+    auto new_grid = managed_array(new managed_array[rows]);
     for (size_t i = 0; i < rows; ++i)
     {
-        new_grid[i] = managed_array(new int[columns]);
+        new_grid[i] = new int[columns];
     }
     auto update_fn = [](int c, int tl, int t, int tr, int l, int r, int bl, int b, int br) -> int { return c; };
     auto automaton = ca::seq::CellularAutomaton<int>(new_grid.get(), rows, columns, update_fn);
