@@ -80,6 +80,8 @@ TEST_CASE("The sequential cellular automaton is created.")
     {
         new_grid[i] = new int[columns];
     }
-    auto update_fn = [](int c, int tl, int t, int tr, int l, int r, int bl, int b, int br) -> int { return c; };
+    auto update_fn = [](int c, int tl, int t, int tr, int l, int r, int bl, int b, int br) -> int {
+        c + tl + t + tr + l + r + bl + b + br + 1;
+    };
     auto automaton = ca::seq::CellularAutomaton<int>(new_grid.get(), rows, columns, update_fn);
 }
