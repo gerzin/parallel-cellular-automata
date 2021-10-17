@@ -2,7 +2,7 @@ cmake_minimum_required(VERSION 3.10)
 
 # set the project name and version
 project(PCATests    VERSION 0.1
-                                    DESCRIPTION "testing of the framework for building Cellular Automata"
+                                    DESCRIPTION "tests of the framework for building Cellular Automata"
                                     LANGUAGES CXX)
 
 # specify the C++ standard
