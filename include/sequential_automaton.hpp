@@ -114,7 +114,7 @@ class CellularAutomaton
     /**
      * @brief Overload of the << operator.
      *
-     * It prints the grid on the output stream.
+     * Print the grid on a output stream.
      *
      * @param os output stream
      * @param ca CellularAutomaton
