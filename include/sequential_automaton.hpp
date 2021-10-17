@@ -1,5 +1,6 @@
 #ifndef PARALLEL_CELLULAR_AUTOMATA_SEQUENTIAL_AUTOMATON_HPP
 #define PARALLEL_CELLULAR_AUTOMATA_SEQUENTIAL_AUTOMATON_HPP
+#include "ca_grid.hpp"
 #include <functional>
 #include <iostream>
 #include <tuple>
@@ -35,23 +36,25 @@ class CellularAutomaton
      */
     CellularAutomaton(T **grid, size_t rows, size_t columns,
                       std::function<T(T, T, T, T, T, T, T, T, T)> update_function)
-        : grid{grid}, rows{rows}, columns{columns} {};
+        : grid{grid}, rows{rows}, columns{columns}, generation(0), update_function(update_function){};
     /**
-     * @brief Destroy the Cellular Automaton object.
+     * @brief Construct a new Cellular Automaton object from another one using move semantic.
      *
-     * If the grid is not a nullptr it deletes the memory allocated.
-     *
+     * @param other CellularAutomaton to move.
      */
-    ~CellularAutomaton() // TODO: possibly remove this destructor.
+    CellularAutomaton(CellularAutomaton &&other)
     {
-        if (grid != nullptr)
-        {
-            for (auto r{0}; r < rows; ++r)
-            {
-                delete[] grid[r];
-            }
-            delete[] grid;
-        }
+        // move what's movable and copying numeric types.
+        grid = std::move(other.grid);
+        rows = other.rows;
+        columns = other.columns;
+        generation = other.generation;
+        update_function = other.update_function;
+        // set the old object in a valid state
+        other.grid = nullptr;
+        other.columns = 0;
+        other.rows = 0;
+        other.generation = 0;
     }
     /**
      * @brief Run the simulation for a given number of steps.
@@ -62,21 +65,23 @@ class CellularAutomaton
      */
     virtual void simulate(unsigned steps = 1)
     {
+        if (steps == 0)
+            return;
         // allocate new grid
         T **new_grid = new T *[rows];
-        for (auto i{0}; i < rows; ++i)
+        for (size_t i{0}; i < rows; ++i)
         {
-            new_grid[0] = new T[columns];
+            new_grid[i] = new T[columns];
         }
         // compute state and put values on the new grid.
         while (steps > 0)
         {
-            for (auto r{0}; r < rows; ++r)
+            for (size_t r{0}; r < rows; ++r)
             {
-                for (auto c{0}; c < columns; ++c)
+                for (size_t c{0}; c < columns; ++c)
                 {
-                    auto cell = std::make_tuple(grid[row][col]);
-                    new_grid[r][c] = std::apply(update_function, std::tuple_cat(cell, get_neighborhood(row, col)));
+                    auto cell = std::make_tuple(grid[r][c]);
+                    new_grid[r][c] = std::apply(update_function, std::tuple_cat(cell, get_neighborhood(r, c)));
                 }
             }
             // swap grids so grid contains the final value.
@@ -87,6 +92,47 @@ class CellularAutomaton
             ++generation;
             --steps;
         }
+        std::cout << "DELETING NEWGRID" << std::endl;
+        // free the memory of the new grid
+        for (size_t i{0}; i < rows; ++i)
+        {
+            delete[] new_grid[i];
+        }
+        delete[] new_grid;
+        std::cout << "NEWGRID DELETED" << std::endl;
+    }
+
+    /**
+     * @brief Get the generation of the simulation.
+     *
+     * @return size_t value of the generation member variable.
+     */
+    size_t get_generation()
+    {
+        return generation;
+    }
+    /**
+     * @brief Overload of the << operator.
+     *
+     * It prints the grid on the output stream.
+     *
+     * @param os output stream
+     * @param ca CellularAutomaton
+     * @return std::ostream& reference to the output stream
+     */
+    friend std::ostream &operator<<(std::ostream &os, const CellularAutomaton &ca)
+    {
+        for (size_t i = 0; i < ca.rows; ++i)
+        {
+            for (size_t j = 0; j < ca.columns; ++j)
+            {
+                os << ca.grid[i][j] << " ";
+            }
+
+            os << std::endl;
+        }
+
+        return os;
     }
 
   protected:
@@ -97,15 +143,17 @@ class CellularAutomaton
     T **grid;
 
     /**
-     * @brief Number of columns of the grid.
-     *
-     */
-    const size_t columns;
-    /**
      * @brief Number of rows of the grid.
      *
      */
     const size_t rows;
+
+    /**
+     * @brief Number of columns of the grid.
+     *
+     */
+    const size_t columns;
+
     /**
      * @brief Current generation of the grid.
      *
@@ -155,4 +203,5 @@ class CellularAutomaton
 };
 } // namespace seq
 } // namespace ca
+
 #endif

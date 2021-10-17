@@ -24,7 +24,8 @@ else()
 endif()
 
 # the "unit/" part of the path will be prepended in the for loop
-set(unit_test_targets 
+set(unit_test_targets
+    test_operators
     test_library_imports
     test_sequential_automaton
 )

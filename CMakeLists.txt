@@ -21,6 +21,6 @@ else()
     add_compile_options(-g -O3)
 endif()
 
-add_library(parallelcellularautomata STATIC include/utimer.hpp src/utimer.cpp include/cellular_automata.hpp include/sequential_automaton.hpp)
+add_library(parallelcellularautomata STATIC include/utimer.hpp include/ca_grid.hpp src/utimer.cpp include/cellular_automata.hpp include/sequential_automaton.hpp)
 target_include_directories(parallelcellularautomata PUBLIC include)
 
