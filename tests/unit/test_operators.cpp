@@ -1,12 +1,15 @@
 #include "../../include/cellular_automata.hpp"
 // clang-format off
+#ifndef CATCH_CONFIG_MAIN
 #define CATCH_CONFIG_MAIN
+#endif
 #include "../ext/catch/catch.hpp"
 // clang-format on
 #include <memory>
 
 TEST_CASE("ca::seq::CellularAutomaton's operator<< works correctly")
 {
+    // creating 
     const size_t rows = 2;
     const size_t columns = 2;
     auto grid = std::make_unique<int *[]>(rows);
@@ -21,6 +24,7 @@ TEST_CASE("ca::seq::CellularAutomaton's operator<< works correctly")
             grid[i][j] = i + j;
         }
     }
+
 #pragma GCC diagnostic push
 #pragma GCC diagnostic ignored "-Wunused-parameter"
     auto update_fn = [](int c, int tl, int t, int tr, int l, int r, int bl, int b, int br) { return c; };
@@ -35,8 +39,7 @@ TEST_CASE("ca::seq::CellularAutomaton's operator<< works correctly")
     {
         for (size_t i = 0; i < rows; ++i)
         {
-            delete (grid[i]);
+            delete[] grid[i];
         }
-        grid = nullptr;
     }
 }

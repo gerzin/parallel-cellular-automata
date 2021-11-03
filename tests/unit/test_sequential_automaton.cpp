@@ -7,7 +7,9 @@
  */
 #include "../../include/cellular_automata.hpp"
 // clang-format off
+#ifndef CATCH_CONFIG_MAIN
 #define CATCH_CONFIG_MAIN
+#endif
 #include "../ext/catch/catch.hpp"
 // clang-format on
 #include <memory>
@@ -97,10 +99,6 @@ TEST_CASE("The sequential cellular automaton is created.")
     automaton.simulate(1);
     automaton.simulate(0);
     automaton.simulate(2);
-    
+
     REQUIRE(automaton.get_generation() == 3);
-    for (auto i = 0; i < rows; ++i)
-    {
-        grid[i] = new int[columns];
-    }
 }
