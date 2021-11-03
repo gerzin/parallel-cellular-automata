@@ -1,6 +1,5 @@
 #ifndef PARALLEL_CELLULAR_AUTOMATA_SEQUENTIAL_AUTOMATON_HPP
 #define PARALLEL_CELLULAR_AUTOMATA_SEQUENTIAL_AUTOMATON_HPP
-#include "ca_grid.hpp"
 #include <functional>
 #include <iostream>
 #include <tuple>
