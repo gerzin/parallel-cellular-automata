@@ -25,6 +25,7 @@ endif()
 
 # the "unit/" part of the path will be prepended in the for loop
 set(unit_test_targets
+    test_sequential_all
     test_operators
     test_library_imports
     test_sequential_automaton
