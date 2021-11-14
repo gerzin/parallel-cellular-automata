@@ -14,23 +14,6 @@
 // clang-format on
 #include <memory>
 
-/*
-template <typename T>
-std::tuple<T, T, T, T, T, T, T, T> get_neighborhood(int row, int col)
-{
-    T top_left, top, top_right, left, right, bottom_left, bottom, bottom_right;
-    top_left = grid[(row - 1 + rows) % rows][(col - 1 + columns) % columns];
-    top = grid[(row - 1 + rows) % rows][col];
-    top_right = grid[(row - 1 + rows) % rows][(col + 1) % columns];
-    left = grid[row][(col - 1 + columns) % columns];
-    right = grid[row][(col + 1) % columns];
-    bottom_left = grid[(row + 1) % rows][(col - 1 + columns) % columns];
-    bottom = grid[(row + 1) % rows][col];
-    bottom_right = grid[(row + 1) % rows][(col + 1) % columns];
-    return std::make_tuple(top_left, top, top_right, left, right, bottom_left, bottom, bottom_right);
-};
-*/
-
 TEST_CASE("The neighborhood is computed correctly.")
 {
     const size_t rows = 4;
