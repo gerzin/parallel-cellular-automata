@@ -30,3 +30,13 @@
 *.exe
 *.out
 *.app
+
+# Build directories in which CMake generates files
+build/
+tests/build/
+
+# Visual Studio Code
+.vscode
+
+# Doxygen output folder
+doc/
