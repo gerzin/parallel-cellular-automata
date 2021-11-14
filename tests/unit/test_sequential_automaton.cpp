@@ -14,18 +14,7 @@
 // clang-format on
 #include <memory>
 
-const size_t rows = 4;
-const size_t columns = 5;
-
 /*
- * 0 -2 0 0 -1
- * 0 1 2 3 -2
- * 0 4 0 5 0
- * 9 6 7 8 0
- */
-
-const int grid[rows][columns] = {{0, -2, 0, 0, -1}, {0, 1, 2, 3, -2}, {0, 4, 0, 5, 0}, {9, 6, 7, 8, 0}};
-
 template <typename T>
 std::tuple<T, T, T, T, T, T, T, T> get_neighborhood(int row, int col)
 {
@@ -40,13 +29,42 @@ std::tuple<T, T, T, T, T, T, T, T> get_neighborhood(int row, int col)
     bottom_right = grid[(row + 1) % rows][(col + 1) % columns];
     return std::make_tuple(top_left, top, top_right, left, right, bottom_left, bottom, bottom_right);
 };
+*/
 
-TEST_CASE("The right neighborhood is computed.")
+TEST_CASE("The neighborhood is computed correctly.")
 {
+    const size_t rows = 4;
+    const size_t columns = 5;
 
-    SECTION("The function returns the neighbors in the right order")
+    /* Grid structure
+     *
+     * 0 -2  0  0  -1
+     * 0  1  2  3  -2
+     * 0  4  0  5   0
+     * 9  6  7  8   0
+     */
+
+    const int grid[rows][columns] = {{0, -2, 0, 0, -1}, {0, 1, 2, 3, -2}, {0, 4, 0, 5, 0}, {9, 6, 7, 8, 0}};
+
+    // the code in this lambda is an exact copy of the code from the get_neighborhood
+    // function in the CellularAutomaton class, where T has been instantiated with an int.
+    auto get_neighborhood = [&grid](int row, int col) -> auto
     {
-        auto [tl, t, tr, l, r, bl, b, br] = get_neighborhood<int>(2, 2);
+        int top_left, top, top_right, left, right, bottom_left, bottom, bottom_right;
+        top_left = grid[(row - 1 + rows) % rows][(col - 1 + columns) % columns];
+        top = grid[(row - 1 + rows) % rows][col];
+        top_right = grid[(row - 1 + rows) % rows][(col + 1) % columns];
+        left = grid[row][(col - 1 + columns) % columns];
+        right = grid[row][(col + 1) % columns];
+        bottom_left = grid[(row + 1) % rows][(col - 1 + columns) % columns];
+        bottom = grid[(row + 1) % rows][col];
+        bottom_right = grid[(row + 1) % rows][(col + 1) % columns];
+        return std::make_tuple(top_left, top, top_right, left, right, bottom_left, bottom, bottom_right);
+    };
+
+    SECTION("The function returns the neighbors in the correct order")
+    {
+        auto [tl, t, tr, l, r, bl, b, br] = get_neighborhood(2, 2);
         REQUIRE(tl == 1);
         REQUIRE(t == 2);
         REQUIRE(tr == 3);
@@ -59,7 +77,7 @@ TEST_CASE("The right neighborhood is computed.")
 
     SECTION("The neighborhood is computed on a toroidal surface.")
     {
-        auto [tl, t, tr, l, r, bl, b, br] = get_neighborhood<int>(0, 0);
+        auto [tl, t, tr, l, r, bl, b, br] = get_neighborhood(0, 0);
         REQUIRE(tl == 0);
         REQUIRE(t == 9);
         REQUIRE(tr == 6);

@@ -33,7 +33,7 @@ class CellularAutomaton
      * @param update_function Function used to update the state of the grid.
      *
      */
-    CellularAutomaton(T **grid, size_t rows, size_t columns,
+    CellularAutomaton(T **grid, const size_t rows, const size_t columns,
                       std::function<T(T, T, T, T, T, T, T, T, T)> update_function)
         : grid{grid}, rows{rows}, columns{columns}, generation(0), update_function(update_function){};
     /**
@@ -91,14 +91,12 @@ class CellularAutomaton
             ++generation;
             --steps;
         }
-        std::cout << "DELETING NEWGRID" << std::endl;
         // free the memory of the new grid
         for (size_t i{0}; i < rows; ++i)
         {
             delete[] new_grid[i];
         }
         delete[] new_grid;
-        std::cout << "NEWGRID DELETED" << std::endl;
     }
 
     /**
