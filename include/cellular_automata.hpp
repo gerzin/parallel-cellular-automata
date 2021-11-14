@@ -1,6 +1,6 @@
 #ifndef PARALLEL_CELLULAR_AUTOMATA_CELLULAR_AUTOMATA_HPP
 #define PARALLEL_CELLULAR_AUTOMATA_CELLULAR_AUTOMATA_HPP
-#include "omp_automaton.hpp"
+//#include "omp_automaton.hpp"
 #include "sequential_automaton.hpp"
 /**
  * @brief Namespace of the framework.
@@ -20,7 +20,7 @@ class AbstractCellularAutomaton
      * @param steps number of simulation steps to run.
      *
      */
-    virtual void simulate(unsigned steps) = 0;
+    virtual void simulate(unsigned steps = 1) = 0;
     /**
      * @brief Get the generation of the simulation.
      *
@@ -30,4 +30,5 @@ class AbstractCellularAutomaton
 };
 
 } // namespace ca
+
 #endif
