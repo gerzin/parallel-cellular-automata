@@ -84,9 +84,9 @@ class CellularAutomaton
                 }
             }
             // swap grids so grid contains the final value.
-            auto tmp = grid;
-            grid = new_grid;
-            new_grid = tmp;
+            T *tmp = *grid;
+            *grid = *new_grid;
+            *new_grid = tmp;
 
             ++generation;
             --steps;
