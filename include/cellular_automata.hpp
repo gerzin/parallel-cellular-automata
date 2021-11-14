@@ -1,5 +1,6 @@
 #ifndef PARALLEL_CELLULAR_AUTOMATA_CELLULAR_AUTOMATA_HPP
 #define PARALLEL_CELLULAR_AUTOMATA_CELLULAR_AUTOMATA_HPP
+#include "omp_automaton.hpp"
 #include "sequential_automaton.hpp"
 /**
  * @brief Namespace of the framework.
@@ -8,7 +9,7 @@
 namespace ca
 {
 /**
- * @brief Interface of a CellularAutomaton
+ * @brief Interface of the CellularAutomaton
  */
 class AbstractCellularAutomaton
 {
