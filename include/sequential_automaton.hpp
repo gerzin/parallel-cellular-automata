@@ -21,7 +21,7 @@ namespace seq
  *
  */
 template <typename T>
-class CellularAutomaton
+class CellularAutomaton : public AbstractCellularAutomaton
 {
   public:
     /**
@@ -38,8 +38,9 @@ class CellularAutomaton
         : grid{grid}, rows{rows}, columns{columns}, generation(0), update_function(update_function){};
     /**
      * @brief Construct a new Cellular Automaton object from another one using move semantic.
-     *
+     * @note The old object will be left in a valid but unspecified state.
      * @param other CellularAutomaton to move.
+     *
      */
     CellularAutomaton(CellularAutomaton &&other)
     {
@@ -55,6 +56,16 @@ class CellularAutomaton
         other.rows = 0;
         other.generation = 0;
     }
+
+    /**
+     * @brief Deleted copy constructor.
+     *
+     * @note The copy constructor has been deleted since the class uses a pointer
+     *       to a user defined grid and the freeing of the grid is up to them.
+     *
+     */
+    CellularAutomaton(const CellularAutomaton &other) = delete;
+
     /**
      * @brief Run the simulation for a given number of steps.
      *
@@ -62,7 +73,7 @@ class CellularAutomaton
      * @post grid contains the result of the simulation and generation = generation + steps.
      *
      */
-    virtual void simulate(unsigned steps = 1)
+    virtual void simulate(unsigned steps = 1) override
     {
         if (steps == 0)
             return;
@@ -104,7 +115,7 @@ class CellularAutomaton
      *
      * @return size_t value of the generation member variable.
      */
-    size_t get_generation()
+    size_t get_generation() override
     {
         return generation;
     }
@@ -178,7 +189,8 @@ class CellularAutomaton
      *    | BL |     B     | BR |
      *    +----+-----------+----+
      * @endcode
-     * @pre 0 <= row < rows && 0 <= col < columns.
+     * @pre 0 <= row < rows.
+     * @pre 0 <= col < columns.
      * @param row row of the center cell.
      * @param col column of the center cell.
      * @return std::tuple<T, T, T, T, T, T, T, T> containing <TL, T, TR, L, R, BL, B, BR>

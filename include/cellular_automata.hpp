@@ -7,6 +7,26 @@
  */
 namespace ca
 {
+/**
+ * @brief Interface of a CellularAutomaton
+ */
+class AbstractCellularAutomaton
+{
+  public:
+    /**
+     * @brief Run the simulation for a given number of steps.
+     *
+     * @param steps number of simulation steps to run.
+     *
+     */
+    virtual void simulate(unsigned steps) = 0;
+    /**
+     * @brief Get the generation of the simulation.
+     *
+     * @return size_t value of the generation member variable.
+     */
+    virtual size_t get_generation() = 0;
+};
 
 } // namespace ca
 #endif
