@@ -35,5 +35,14 @@ int main()
         delete[] grid;
     }
 
+    {
+        using str = std::string;
+        size_t nrows = 20;
+        auto grid = ca::utils::newGrid<str>(nrows, nrows);
+        auto update_fn = [](str, str, str, str, str, str, str, str, str) { return str(""); };
+        auto c = seq::CellularAutomaton<str>(grid, nrows, nrows, update_fn);
+        ca::utils::deleteGrid(grid, nrows);
+    }
+
     return EXIT_SUCCESS;
 }
