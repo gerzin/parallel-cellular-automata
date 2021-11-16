@@ -79,6 +79,7 @@ class CellularAutomaton : public AbstractCellularAutomaton
             return;
         // allocate new grid
         T **new_grid = new T *[rows];
+#pragma omp parallel for
         for (size_t i{0}; i < rows; ++i)
         {
             new_grid[i] = new T[columns];
@@ -86,6 +87,7 @@ class CellularAutomaton : public AbstractCellularAutomaton
         // compute state and put values on the new grid.
         while (steps > 0)
         {
+#pragma omp parallel for collapse(2)
             for (size_t r{0}; r < rows; ++r)
             {
                 for (size_t c{0}; c < columns; ++c)
@@ -102,7 +104,8 @@ class CellularAutomaton : public AbstractCellularAutomaton
             ++generation;
             --steps;
         }
-        // free the memory of the new grid
+// free the memory of the new grid
+#pragma omp parallel for
         for (size_t i{0}; i < rows; ++i)
         {
             delete[] new_grid[i];

@@ -29,6 +29,8 @@ set(unit_test_targets
     test_operators
     test_library_imports
     test_sequential_automaton
+    test_utilities
+    test_sequential_leaks_valgrind
 )
 
 foreach(TARGET ${unit_test_targets})

@@ -5,5 +5,6 @@
 #include "../ext/catch/catch.hpp"
 // clang-format on
 #include "./test_library_imports.cpp"
+#include "./test_operators.cpp"
 #include "./test_sequential_automaton.cpp"
-#include "test_operators.cpp"
+#include "./test_utilities.cpp"
