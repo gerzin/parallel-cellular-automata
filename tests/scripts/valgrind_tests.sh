@@ -29,7 +29,6 @@ for file in $files; do
     else
         echo "NO LEAKS DETECTED IN: $file"
     fi
-
 done
 
 echo "NO LEAKS DETECTED"
