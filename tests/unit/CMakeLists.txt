@@ -9,8 +9,8 @@ project(PCATests    VERSION 0.1
 set(CMAKE_CXX_STANDARD 17)
 set(CMAKE_CXX_STANDARD_REQUIRED True)
 
-include_directories(../include ./ext)
-link_directories(../build)
+include_directories(../../include ../ext)
+link_directories(../../build)
 
 # compile options
 if (MSVC)
@@ -23,7 +23,6 @@ else()
     add_compile_options(-g -O3)
 endif()
 
-# the "unit/" part of the path will be prepended in the for loop
 set(unit_test_targets
     test_sequential_all
     test_operators
@@ -34,6 +33,6 @@ set(unit_test_targets
 )
 
 foreach(TARGET ${unit_test_targets})
-    add_executable(${TARGET} unit/${TARGET}.cpp)
+    add_executable(${TARGET} ${TARGET}.cpp)
     target_link_libraries(${TARGET} parallelcellularautomata)
 endforeach()
