@@ -11,6 +11,10 @@ set(CMAKE_CXX_STANDARD_REQUIRED True)
 
 find_package(OpenMP REQUIRED)
 
+if (${OPENMP_FOUND})
+    include_directories(${INCLUDE_DIRS})
+endif()
+
 include_directories(../../include ../ext)
 link_directories(../../build)
 
@@ -24,7 +28,7 @@ if (MSVC)
     endif()
 else()
     # lots of warnings and all warnings as errors
-    add_compile_options(-Wall -Wextra -pedantic -Werror)
+    add_compile_options(-Wall -Wextra -pedantic -Werror -Wno-error=unused-command-line-argument)
     # optimizations and debug informations
     add_compile_options(-g -O3)
     # if the compiler supports OpenMP, use the right flags
@@ -41,6 +45,7 @@ set(unit_test_targets
     test_sequential_automaton
     test_utilities
     test_sequential_leaks_valgrind
+    test_omp_automaton
 )
 
 foreach(TARGET ${unit_test_targets})
