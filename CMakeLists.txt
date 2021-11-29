@@ -15,12 +15,20 @@ if (MSVC)
     add_compile_options(/W4 /WX)
     # speed optimization
     add_compile_options(/Ox)
+    # if the compiler supports OpenMP, use the right flags
+    if (${OPENMP_FOUND})
+        add_compile_options(${OpenMP_CXX_FLAGS})
+    endif()
 else()
     # lots of warnings and all warnings as errors
     add_compile_options(-Wall -Wextra -pedantic -Werror)
     add_compile_options(-g -O3)
+    # if the compiler supports OpenMP, use the right flags
+    if (${OPENMP_FOUND})
+        add_compile_options(${OpenMP_CXX_FLAGS})
+    endif()
 endif()
 
-add_library(parallelcellularautomata STATIC include/utimer.hpp src/utimer.cpp include/cellular_automata.hpp include/sequential_automaton.hpp)
+add_library(parallelcellularautomata STATIC include/utimer.hpp src/utimer.cpp include/cellular_automata.hpp include/sequential_automaton.hpp include/omp_automaton.hpp)
 target_include_directories(parallelcellularautomata PUBLIC include)
 

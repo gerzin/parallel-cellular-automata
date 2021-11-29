@@ -1,22 +1,15 @@
-// clang-format off
-#ifndef CATCH_CONFIG_MAIN
-#define CATCH_CONFIG_MAIN
-#endif
-#include "../ext/catch/catch.hpp"
-// clang-format on
 #include "../../include/cellular_automata.hpp"
-
+#include <iostream>
 using namespace ca;
 using namespace std;
 
-TEST_CASE("The newGrid and deleteGrid functions work correctly")
+int main()
 {
     int **grid = nullptr;
     size_t nrows{20};
-    SECTION("newGrid")
+
     {
         grid = utils::newGrid<int>(nrows, nrows);
-        REQUIRE(grid != nullptr);
     }
 
     for (size_t i = 0; i < nrows; ++i)
@@ -36,8 +29,5 @@ TEST_CASE("The newGrid and deleteGrid functions work correctly")
         cout << endl;
     }
 
-    // SECTION("deleteGrid")
-    //{
     utils::deleteGrid<int>(grid, nrows);
-    //}
 }
