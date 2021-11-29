@@ -66,7 +66,7 @@ T **newGrid(size_t nrows, const size_t ncols)
 template <typename T>
 void deleteGrid(T **grid, const size_t nrows)
 {
-    for (size_t i{0}; i < rows; ++i)
+    for (size_t i{0}; i < nrows; ++i)
     {
         delete[] grid[i];
     }

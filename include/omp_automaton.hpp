@@ -21,7 +21,7 @@ namespace omp
  *
  */
 template <typename T>
-class CellularAutomaton : public AbstractCellularAutomaton
+class CellularAutomaton
 {
   public:
     /**
@@ -73,7 +73,7 @@ class CellularAutomaton : public AbstractCellularAutomaton
      * @post grid contains the result of the simulation and generation = generation + steps.
      *
      */
-    virtual void simulate(unsigned steps = 1) override
+    virtual void simulate(unsigned steps = 1)
     {
         if (steps == 0)
             return;
@@ -118,7 +118,7 @@ class CellularAutomaton : public AbstractCellularAutomaton
      *
      * @return size_t value of the generation member variable.
      */
-    size_t get_generation() override
+    size_t get_generation() const
     {
         return generation;
     }

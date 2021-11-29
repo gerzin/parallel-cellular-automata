@@ -7,6 +7,7 @@
 #include "../../include/cellular_automata.hpp"
 
 using namespace ca;
+using namespace std;
 
 TEST_CASE("The newGrid and deleteGrid functions work correctly")
 {
@@ -16,8 +17,26 @@ TEST_CASE("The newGrid and deleteGrid functions work correctly")
     {
         grid = utils::newGrid<int>(nrows, nrows);
     }
+
+    for (size_t i = 0; i < nrows; ++i)
+    {
+        for (size_t j = 0; j < nrows; ++j)
+        {
+            grid[i][j] = 9;
+        }
+    }
+
+    for (size_t i = 0; i < nrows; ++i)
+    {
+        for (size_t j = 0; j < nrows; ++j)
+        {
+            cout << grid[i][j] << " ";
+        }
+        cout << endl;
+    }
+
     SECTION("deleteGrid")
     {
-        utils::deleteGrid(grid, nrows);
+        utils::deleteGrid<int>(grid, nrows);
     }
 }

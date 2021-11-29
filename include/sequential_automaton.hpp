@@ -119,7 +119,7 @@ class CellularAutomaton
      *
      * @return size_t value of the generation member variable.
      */
-    virtual size_t get_generation()
+    virtual size_t get_generation() const
     {
         return generation;
     }
