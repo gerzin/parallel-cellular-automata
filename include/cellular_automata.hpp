@@ -1,7 +1,10 @@
 #ifndef PARALLEL_CELLULAR_AUTOMATA_CELLULAR_AUTOMATA_HPP
 #define PARALLEL_CELLULAR_AUTOMATA_CELLULAR_AUTOMATA_HPP
-//#include "omp_automaton.hpp"
+// clang-format off
 #include "sequential_automaton.hpp"
+#include "omp_automaton.hpp"
+// clang-format on
+
 /**
  * @brief Namespace of the framework.
  *
@@ -53,6 +56,33 @@ T **newGrid(size_t nrows, const size_t ncols)
     {
         grid[i] = new T[ncols];
     }
+    return grid;
+}
+
+/**
+ * @brief Allocate a new grid to be used by the automaton and initialise each cell with an initial value.
+ *
+ * The grid is implemented as a double-pointer matrix.
+ *
+ * @tparam T type of the cells
+ * @param nrows number of rows of the grid.
+ * @param ncols number of columns of the grid.
+ * @param initial value used to initialise the cells.
+ * @return T** pointer to the matrix.
+ */
+template <typename T>
+T **newGrid(size_t nrows, const size_t ncols, T initial)
+{
+    T **grid = newGrid<T>(nrows, ncols);
+
+    for (size_t i = 0; i < nrows; ++i)
+    {
+        for (size_t j = 0; j < ncols; ++j)
+        {
+            grid[i][j] = initial;
+        }
+    }
+
     return grid;
 }
 
