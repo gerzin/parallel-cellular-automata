@@ -41,3 +41,6 @@ tests/unit/build/
 
 # Doxygen output folder
 doc/
+
+# Mac files
+.DS_Store
