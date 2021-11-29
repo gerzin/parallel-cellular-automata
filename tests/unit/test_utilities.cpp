@@ -11,7 +11,7 @@ using namespace std;
 
 TEST_CASE("The newGrid and deleteGrid functions work correctly")
 {
-    int **grid;
+    int **grid = nullptr;
     size_t nrows{20};
     SECTION("newGrid")
     {
