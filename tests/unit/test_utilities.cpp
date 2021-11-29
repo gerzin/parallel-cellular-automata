@@ -16,6 +16,7 @@ TEST_CASE("The newGrid and deleteGrid functions work correctly")
     SECTION("newGrid")
     {
         grid = utils::newGrid<int>(nrows, nrows);
+        REQUIRE(grid != nullptr);
     }
 
     for (size_t i = 0; i < nrows; ++i)
@@ -35,8 +36,8 @@ TEST_CASE("The newGrid and deleteGrid functions work correctly")
         cout << endl;
     }
 
-    SECTION("deleteGrid")
-    {
-        utils::deleteGrid<int>(grid, nrows);
-    }
+    // SECTION("deleteGrid")
+    //{
+    utils::deleteGrid<int>(grid, nrows);
+    //}
 }
