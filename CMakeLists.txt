@@ -9,6 +9,9 @@ project(PCA    VERSION 0.1
 set(CMAKE_CXX_STANDARD 17)
 set(CMAKE_CXX_STANDARD_REQUIRED True)
 
+find_package(OpenMP REQUIRED)
+
+
 # compile options
 if (MSVC)
     # warning level 4 and all warnings as errors
