@@ -287,7 +287,7 @@ T **newGrid(size_t nrows, const size_t ncols, T initial)
  * @tparam T type of the grid cells.
  * @param grid the greed to free.
  * @param nrows number of rows of the grid.
- * @note same as ca::newGrid but uses OpenMP
+ * @note same as ca::deleteGrid but uses OpenMP
  */
 template <typename T>
 void deleteGrid(T **grid, const size_t nrows)
