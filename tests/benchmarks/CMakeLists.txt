@@ -2,20 +2,23 @@ cmake_minimum_required(VERSION 3.10)
 
 # set the project name and version
 project(PCATests    VERSION 0.1
-                                    DESCRIPTION "benchmarks of the framework for building Cellular Automata"
-                                    LANGUAGES CXX)
+                    DESCRIPTION "benchmarks of the framework for building Cellular Automata"
+                    LANGUAGES CXX)
 
 # specify the C++ standard
 set(CMAKE_CXX_STANDARD 17)
 set(CMAKE_CXX_STANDARD_REQUIRED True)
 
+#add_subdirectory(../ext/benchmark)
+
 find_package(OpenMP REQUIRED)
+find_package(benchmark PATHS ../ext/benchmark/build REQUIRED)
 
 if (${OPENMP_FOUND})
     include_directories(${INCLUDE_DIRS})
 endif()
 
-include_directories(../../include ../ext)
+include_directories(../../include ../ext ../ext/benchmark/include)
 link_directories(../../build)
 
 # compile options
@@ -40,10 +43,10 @@ endif()
 
 set(
     BENCHMARK_TARGETS
-    bench_sequential_automaton.cpp
+    bench_sequential_automaton
 )
 
 foreach(TARGET ${BENCHMARK_TARGETS})
     add_executable(${TARGET} ${TARGET}.cpp)
-    target_link_libraries(${TARGET} parallelcellularautomata)
+    target_link_libraries(${TARGET} parallelcellularautomata benchmark::benchmark)
 endforeach()
