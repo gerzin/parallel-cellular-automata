@@ -24,7 +24,7 @@ if (MSVC)
     endif()
 else()
     # lots of warnings and all warnings as errors
-    add_compile_options(-Wall -Wextra -pedantic -Werror)
+    add_compile_options(-Wall -Wextra -pedantic -Werror -Wno-error=unused-command-line-argument)
     add_compile_options(-g -O3)
     # if the compiler supports OpenMP, use the right flags
     if (${OPENMP_FOUND})
