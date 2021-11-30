@@ -1,5 +1,6 @@
 #ifndef PARALLEL_CELLULAR_AUTOMATA_CELLULAR_AUTOMATA_HPP
 #define PARALLEL_CELLULAR_AUTOMATA_CELLULAR_AUTOMATA_HPP
+#include <iostream>
 // clang-format off
 #include "sequential_automaton.hpp"
 #include "omp_automaton.hpp"

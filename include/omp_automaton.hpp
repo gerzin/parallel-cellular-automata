@@ -7,7 +7,7 @@
 #ifndef _OPENMP
 // use message instead of warning because this file may be included but not used, and
 // want to avoid problems with eventual -Werror
-#pragma message("You are including this file " __FILE__ " which uses OpenMP but _OPENMP is not defined."               \
+#pragma message("You are including this file: " __FILE__ " which uses OpenMP but _OPENMP is not defined."              \
                 " This may be totally fine if you're including cellular_automata.hpp into a project"                   \
                 "and not call functions from the ca::omp namespace.")
 #endif
@@ -221,6 +221,86 @@ class CellularAutomaton
         return std::make_tuple(top_left, top, top_right, left, right, bottom_left, bottom, bottom_right);
     };
 };
+
+/**
+ * @brief Utilities using OpenMP
+ *
+ */
+namespace utils
+{
+/**
+ * @brief Allocate a new grid to be used by the automaton.
+ *
+ * The grid is implemented as a double-pointer matrix.
+ *
+ * @tparam T type of the cells
+ * @param nrows number of rows of the grid.
+ * @param ncols number of columns of the grid
+ * @return T** pointer to the matrix.
+ *
+ * @note same as ca::newGrid but uses OpenMP
+ */
+template <typename T>
+T **newGrid(size_t nrows, const size_t ncols)
+{
+    T **grid = new T *[nrows];
+#pragma omp parallel for
+    for (size_t i{0}; i < nrows; ++i)
+    {
+        grid[i] = new T[ncols];
+    }
+    return grid;
+}
+
+/**
+ * @brief Allocate a new grid to be used by the automaton and initialise each cell with an initial value.
+ *
+ * The grid is implemented as a double-pointer matrix.
+ *
+ * @tparam T type of the cells
+ * @param nrows number of rows of the grid.
+ * @param ncols number of columns of the grid.
+ * @param initial value used to initialise the cells.
+ * @return T** pointer to the matrix.
+ * @note same as ca::newGrid but uses OpenMP.
+ */
+template <typename T>
+T **newGrid(size_t nrows, const size_t ncols, T initial)
+{
+    T **grid = newGrid<T>(nrows, ncols);
+
+#pragma omp parallel for collapse(2)
+    for (size_t i = 0; i < nrows; ++i)
+    {
+        for (size_t j = 0; j < ncols; ++j)
+        {
+            grid[i][j] = initial;
+        }
+    }
+
+    return grid;
+}
+
+/**
+ * @brief Free a grid allocated with newGrid.
+ * @see newGrid
+ * @tparam T type of the grid cells.
+ * @param grid the greed to free.
+ * @param nrows number of rows of the grid.
+ * @note same as ca::deleteGrid but uses OpenMP
+ */
+template <typename T>
+void deleteGrid(T **grid, const size_t nrows)
+{
+#pragma omp parallel for
+    for (size_t i{0}; i < nrows; ++i)
+    {
+        delete[] grid[i];
+    }
+    delete[] grid;
+}
+} // namespace utils
+
 } // namespace omp
 } // namespace ca
 
