@@ -18,7 +18,7 @@ if (${OPENMP_FOUND})
     include_directories(${INCLUDE_DIRS})
 endif()
 
-include_directories(../../include ../ext ../ext/benchmark/include)
+include_directories(../../include ../ext ../ext/benchmark/include ./include)
 link_directories(../../build)
 
 # compile options
@@ -44,6 +44,7 @@ endif()
 set(
     BENCHMARK_TARGETS
     bench_sequential_automaton
+    bench_omp_automaton
 )
 
 foreach(TARGET ${BENCHMARK_TARGETS})
