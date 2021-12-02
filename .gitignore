@@ -44,3 +44,6 @@ doc/
 
 # Mac files
 .DS_Store
+
+# google/benchmark folder
+tests/ext/benchmark/
