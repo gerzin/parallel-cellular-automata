@@ -43,6 +43,6 @@ T conways_game_of_life_update_function(T centercell, T tl, T t, T tr, T l, T r, 
         else
             return 0;
     }
-};
+}
 
 #endif
