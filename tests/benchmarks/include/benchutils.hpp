@@ -7,6 +7,9 @@
  */
 #ifndef PARALLEL_CELLULAR_AUTOMATA_BENCHMARK_BENCHUTILS_HPP
 #define PARALLEL_CELLULAR_AUTOMATA_BENCHMARK_BENCHUTILS_HPP
+#include <cstddef>
+#include <utility>
+#include <vector>
 
 /**
  * @brief Update rule for the Conway's game of life.
@@ -42,6 +45,49 @@ T conways_game_of_life_update_function(T centercell, T tl, T t, T tr, T l, T r, 
             return 1;
         else
             return 0;
+    }
+}
+
+/**
+ * @brief Positions of the 1s in the glider gun.
+ * @code
+ * 	........................O...........
+ *	......................O.O...........
+ *  ............OO......OO............OO
+ *  ...........O...O....OO............OO
+ *  OO........O.....O...OO..............
+ *  OO........O...O.OO....O.O...........
+ *  ..........O.....O.......O...........
+ *  ...........O...O....................
+ *  ............OO......................
+ * @endcode
+ */
+const std::vector<std::pair<short, short>> glider_cells = {
+    {0, 24}, {1, 22}, {1, 24}, {2, 12}, {2, 13}, {2, 20}, {2, 21}, {2, 34}, {2, 35}, {3, 11}, {3, 15}, {3, 20},
+    {3, 21}, {3, 34}, {3, 35}, {4, 0},  {4, 1},  {4, 10}, {4, 16}, {4, 20}, {4, 21}, {5, 0},  {5, 1},  {5, 10},
+    {5, 14}, {5, 16}, {5, 17}, {5, 22}, {5, 24}, {6, 10}, {6, 16}, {6, 24}, {7, 11}, {7, 15}, {8, 12}, {8, 13}};
+
+/**
+ * @brief Inserts a glider gun into a grid.
+ *
+ * This can be useful to check the correck functioning of an automaton using the Game of Life rules.
+ * @see conways_game_of_life_update_function.
+ * @tparam type of the cells (int/short)
+ * @param grid grid.
+ * @param nrows number of rows.
+ * @param ncols number of columns.
+ * @pre nrows >= 9   (possibly >>)
+ * @pre ncols >= 35  (possibly >>)
+ */
+template <typenameT>
+void fill_grid_with_gosper_glider_gun(T **grid, const size_t nrows, const size_t ncols)
+{
+    assert(nrows > 9);
+    assert(ncols > 35);
+    for (auto tuple : glider_cells)
+    {
+        auto [row, col] = tuple;
+        grid[row][col] = 1;
     }
 }
 
