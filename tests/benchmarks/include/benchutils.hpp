@@ -8,6 +8,7 @@
 #ifndef PARALLEL_CELLULAR_AUTOMATA_BENCHMARK_BENCHUTILS_HPP
 #define PARALLEL_CELLULAR_AUTOMATA_BENCHMARK_BENCHUTILS_HPP
 #include <cstddef>
+#include <iostream>
 #include <utility>
 #include <vector>
 
@@ -79,11 +80,16 @@ const std::vector<std::pair<short, short>> glider_cells = {
  * @pre nrows >= 9   (possibly >>)
  * @pre ncols >= 35  (possibly >>)
  */
-template <typenameT>
-void fill_grid_with_gosper_glider_gun(T **grid, const size_t nrows, const size_t ncols)
+template <typename T>
+void fill_grid_with_gosper_glider_gun(T **grid, size_t nrows, size_t ncols)
 {
-    assert(nrows > 9);
-    assert(ncols > 35);
+    if (nrows < 9 || ncols < 35)
+    {
+        std::cerr << "The grid is too small to fit the glider." << std::endl;
+        std::cerr << "Grid was (" << nrows << ", " << ncols << "). Needed at least (9,35)" << std::endl;
+        throw "Grid too small";
+    }
+
     for (auto tuple : glider_cells)
     {
         auto [row, col] = tuple;
