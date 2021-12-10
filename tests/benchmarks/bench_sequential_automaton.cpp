@@ -1,6 +1,7 @@
 #include <benchmark/benchmark.h>
 #include <benchutils.hpp>
 #include <cellular_automata.hpp>
+#include <iostream>
 
 static void BM_GridCreationAndDeletionInt(benchmark::State &state)
 {

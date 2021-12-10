@@ -1,16 +1,18 @@
 #ifndef PARALLEL_CELLULAR_AUTOMATA_OMPL_AUTOMATON_HPP
 #define PARALLEL_CELLULAR_AUTOMATA_OMPL_AUTOMATON_HPP
+#include <cstddef>
 #include <functional>
 #include <iostream>
 #include <tuple>
 
-#ifndef _OPENMP
+/*#ifndef _OPENMP
 // use message instead of warning because this file may be included but not used, and
 // want to avoid problems with eventual -Werror
 #pragma message("You are including this file: " __FILE__ " which uses OpenMP but _OPENMP is not defined."              \
                 " This may be totally fine if you're including cellular_automata.hpp into a project"                   \
                 "and not call functions from the ca::omp namespace.")
 #endif
+*/
 
 namespace ca
 {
