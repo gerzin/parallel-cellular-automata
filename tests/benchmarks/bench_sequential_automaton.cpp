@@ -40,9 +40,9 @@ static void BM_SimulationStep(benchmark::State &state)
     ca::utils::deleteGrid<int>(grid, nrows);
 }
 
-BENCHMARK(BM_GridCreationAndDeletionInt)->Arg(1e1)->Arg(1e2)->Arg(1e3)->Arg(1e4)->Arg(1e5);
+BENCHMARK(BM_GridCreationAndDeletionInt)->Arg(1e1)->Arg(1e2)->Arg(1e3)->Arg(1e4)->Arg(2 * 1e4);
 
-BENCHMARK(BM_GridCreationAndDeletionUInt8)->Arg(1e1)->Arg(1e2)->Arg(1e3)->Arg(1e4)->Arg(1e5);
+BENCHMARK(BM_GridCreationAndDeletionUInt8)->Arg(1e1)->Arg(1e2)->Arg(1e3)->Arg(1e4)->Arg(2 * 1e4);
 
 BENCHMARK(BM_SimulationStep)
     // 1 simulation step

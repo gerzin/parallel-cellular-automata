@@ -13,6 +13,6 @@ static void BM_GridCreationAndDeletion(benchmark::State &state)
     }
 }
 
-BENCHMARK(BM_GridCreationAndDeletion)->Arg(1e1)->Arg(1e2)->Arg(1e3)->Arg(1e4)->Arg(1e5);
+BENCHMARK(BM_GridCreationAndDeletion)->Arg(1e1)->Arg(1e2)->Arg(1e3)->Arg(1e4)->Arg(2 * 1e4);
 
 BENCHMARK_MAIN();
