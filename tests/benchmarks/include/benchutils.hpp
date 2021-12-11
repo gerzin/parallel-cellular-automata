@@ -90,7 +90,7 @@ void fill_grid_with_gosper_glider_gun(T **grid, size_t nrows, size_t ncols)
         throw "Grid too small";
     }
 
-    for (auto tuple : glider_cells)
+    for (const auto &tuple : glider_cells)
     {
         auto [row, col] = tuple;
         grid[row][col] = 1;

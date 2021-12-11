@@ -90,7 +90,7 @@ class CellularAutomaton
         // allocate new grid
         T **new_grid = new T *[rows];
 #pragma omp parallel for
-        for (size_t i{0}; i < rows; ++i)
+        for (size_t i = 0; i < rows; ++i)
         {
             new_grid[i] = new T[columns];
         }
@@ -98,9 +98,9 @@ class CellularAutomaton
         while (steps > 0)
         {
 #pragma omp parallel for collapse(2)
-            for (size_t r{0}; r < rows; ++r)
+            for (size_t r = 0; r < rows; ++r)
             {
-                for (size_t c{0}; c < columns; ++c)
+                for (size_t c = 0; c < columns; ++c)
                 {
                     auto cell = std::make_tuple(grid[r][c]);
                     new_grid[r][c] = std::apply(update_function, std::tuple_cat(cell, get_neighborhood(r, c)));
@@ -116,7 +116,7 @@ class CellularAutomaton
         }
 // free the memory of the new grid
 #pragma omp parallel for
-        for (size_t i{0}; i < rows; ++i)
+        for (size_t i = 0; i < rows; ++i)
         {
             delete[] new_grid[i];
         }
@@ -247,7 +247,7 @@ T **newGrid(size_t nrows, const size_t ncols)
 {
     T **grid = new T *[nrows];
 #pragma omp parallel for
-    for (size_t i{0}; i < nrows; ++i)
+    for (size_t i = 0; i < nrows; ++i)
     {
         grid[i] = new T[ncols];
     }
@@ -295,7 +295,7 @@ template <typename T>
 void deleteGrid(T **grid, const size_t nrows)
 {
 #pragma omp parallel for
-    for (size_t i{0}; i < nrows; ++i)
+    for (size_t i = 0; i < nrows; ++i)
     {
         delete[] grid[i];
     }
