@@ -40,6 +40,7 @@ else()
     # if the compiler supports OpenMP, use the right flags
     if (${OPENMP_FOUND})
         add_compile_options(${OpenMP_CXX_FLAGS})
+        link_libraries(${OpenMP_CXX_FLAGS})
     endif()
 
 endif()
