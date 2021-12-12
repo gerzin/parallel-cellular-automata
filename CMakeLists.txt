@@ -1,9 +1,9 @@
 cmake_minimum_required(VERSION 3.10)
 
 # set the project name and version
-project(PCA    VERSION 0.1
-                                    DESCRIPTION "framework for building Cellular Automata"
-                                    LANGUAGES CXX)
+project(PCA     VERSION 0.1
+                DESCRIPTION "framework for building Cellular Automata"
+                LANGUAGES CXX)
 
 # specify the C++ standard
 set(CMAKE_CXX_STANDARD 17)
@@ -37,6 +37,6 @@ else()
     endif()
 endif()
 
-add_library(parallelcellularautomata STATIC include/utimer.hpp src/utimer.cpp include/cellular_automata.hpp include/sequential_automaton.hpp include/omp_automaton.hpp)
+add_library(parallelcellularautomata STATIC include/utimer.hpp src/utimer.cpp include/cellular_automata.hpp include/sequential_automaton.hpp include/omp_automaton.hpp include/parallel_automaton.hpp)
 target_include_directories(parallelcellularautomata PUBLIC include)
 
