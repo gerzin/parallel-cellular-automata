@@ -40,9 +40,23 @@ static void BM_SimulationStep(benchmark::State &state)
     ca::utils::deleteGrid<int>(grid, nrows);
 }
 
+static void BM_UpdateFunction(benchmark::State &state)
+{
+
+    auto update_fn = conways_game_of_life_update_function<int>;
+    int y = 0;
+    for (auto _ : state)
+    {
+        // auto val __attribute__((unused)) = update_fn(1, 0, 1, 0, 1, 0, 1, 0, 1);
+        benchmark::DoNotOptimize(y = update_fn(1, 0, 1, 0, 1, 0, 1, 0, 1));
+    }
+}
+
 BENCHMARK(BM_GridCreationAndDeletionInt)->Arg(1e1)->Arg(1e2)->Arg(1e3)->Arg(1e4)->Arg(2 * 1e4);
 
 BENCHMARK(BM_GridCreationAndDeletionUInt8)->Arg(1e1)->Arg(1e2)->Arg(1e3)->Arg(1e4)->Arg(2 * 1e4);
+
+BENCHMARK(BM_UpdateFunction);
 
 BENCHMARK(BM_SimulationStep)
     // 1 simulation step

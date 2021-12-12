@@ -9,6 +9,7 @@
 #define PARALLEL_CELLULAR_AUTOMATA_BENCHMARK_BENCHUTILS_HPP
 #include <cstddef>
 #include <iostream>
+#include <stdexcept>
 #include <utility>
 #include <vector>
 
@@ -87,7 +88,7 @@ void fill_grid_with_gosper_glider_gun(T **grid, size_t nrows, size_t ncols)
     {
         std::cerr << "The grid is too small to fit the glider." << std::endl;
         std::cerr << "Grid was (" << nrows << ", " << ncols << "). Needed at least (9,35)" << std::endl;
-        throw "Grid too small";
+        throw std::invalid_argument("Grid too small");
     }
 
     for (const auto &tuple : glider_cells)
