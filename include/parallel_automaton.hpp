@@ -10,8 +10,8 @@
  * @copyright Copyright (c) 2021
  *
  */
-#ifndef PARALLEL_CELLULAR_AUTOMATA_SEQUENTIAL_AUTOMATON_HPP
-#define PARALLEL_CELLULAR_AUTOMATA_SEQUENTIAL_AUTOMATON_HPP
+#ifndef PARALLEL_CELLULAR_AUTOMATA_PARALLEL_AUTOMATON_HPP
+#define PARALLEL_CELLULAR_AUTOMATA_PARALLEL_AUTOMATON_HPP
 
 #ifndef PARALLEL_CELLULAR_AUTOMATA_CELLULAR_AUTOMATA_HPP
 #include "cellular_automata.hpp"
@@ -20,7 +20,7 @@
 namespace ca
 {
 /**
- * @brief Namespace containing the implementation of the parallel version.
+ * @brief Namespace containing the implementation of the parallel version of the cellular automaton.
  *
  */
 namespace par
@@ -214,6 +214,7 @@ class CellularAutomaton
         bottom_right = grid[(row + 1) % rows][(col + 1) % columns];
         return std::make_tuple(top_left, top, top_right, left, right, bottom_left, bottom, bottom_right);
     };
-}
-
+};
+} // namespace par
+} // namespace ca
 #endif
