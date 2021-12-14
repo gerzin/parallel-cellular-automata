@@ -1,14 +1,14 @@
 /**
- * @file parallel_automaton.cpp
+ * @file parallel_automaton.hpp
  * @author gerardo zinno (gerardozinno1@gmail.com)
  * @brief This file contains the definition and implementation of the parallel version of the Cellular Automaton.
- *        
- *        This version is parallelized using standard c++ 
+ *
+ *        This version is parallelized using standard c++
  * @version 0.1
  * @date 2021-12-12
- * 
+ *
  * @copyright Copyright (c) 2021
- * 
+ *
  */
 #ifndef PARALLEL_CELLULAR_AUTOMATA_SEQUENTIAL_AUTOMATON_HPP
 #define PARALLEL_CELLULAR_AUTOMATA_SEQUENTIAL_AUTOMATON_HPP
