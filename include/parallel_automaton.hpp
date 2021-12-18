@@ -17,6 +17,11 @@
 #include "cellular_automata.hpp"
 #endif
 
+#include <thread>
+#include <vector>
+
+using namespace std;
+
 namespace ca
 {
 /**
@@ -83,11 +88,23 @@ class CellularAutomaton
         if (steps == 0)
             return;
         // allocate new grid
-        T **new_grid = new T *[rows];
-        for (size_t i{0}; i < rows; ++i)
-        {
-            new_grid[i] = new T[columns];
-        }
+        T **new_grid = ca::utils::newGrid<T>(rows, columns);
+        vector<thread> workers;
+        std::barrier sync_point(workers.size());
+        auto work = [&](size_t start, size_t end) {
+            while (steps > 0)
+            {
+                for (size_t r{start}; r < end : ++r)
+                {
+                    for (size_t { c } 0; c < columns; ++c)
+                    {
+                        auto cell = std::make_tuple(grid[r][c]);
+                        new_grid[r][c] = std::apply(update_function, std::tuple_cat(cell, get_neighborhood(r, c)));
+                    }
+                }
+                sync_point.arrive_and_wait();
+            }
+        };
         // compute state and put values on the new grid.
         while (steps > 0)
         {
@@ -106,6 +123,10 @@ class CellularAutomaton
 
             ++generation;
             --steps;
+        }
+        for (auto &thread : threads)
+        {
+            thread.join();
         }
         // free the memory of the new grid
         for (size_t i{0}; i < rows; ++i)

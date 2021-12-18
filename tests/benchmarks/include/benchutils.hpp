@@ -7,9 +7,11 @@
  */
 #ifndef PARALLEL_CELLULAR_AUTOMATA_BENCHMARK_BENCHUTILS_HPP
 #define PARALLEL_CELLULAR_AUTOMATA_BENCHMARK_BENCHUTILS_HPP
+#include <chrono>
 #include <cstddef>
 #include <iostream>
 #include <stdexcept>
+#include <thread>
 #include <utility>
 #include <vector>
 
@@ -96,6 +98,16 @@ void fill_grid_with_gosper_glider_gun(T **grid, size_t nrows, size_t ncols)
         auto [row, col] = tuple;
         grid[row][col] = 1;
     }
+}
+
+/**
+ * @brief Simulates work by making a thread sleep for a number of milliseconds.
+ *
+ * @param millis milliseconds to sleep.
+ */
+void simulate_work(unsigned millis)
+{
+    std::this_thread::sleep_for(std::chrono::milliseconds(millis));
 }
 
 #endif
