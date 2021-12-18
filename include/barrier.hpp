@@ -1,16 +1,32 @@
 #ifndef PARALLEL_CELLULAR_AUTOMATA_BARRIER_HPP
 #define PARALLEL_CELLULAR_AUTOMATA_BARRIER_HPP
+#include <condition_variable>
+#include <mutex>
 #include <thread>
 #include <vector>
 
 namespace ca
 {
+/**
+ * @brief Self-resetting Synchronization barrier for threads.
+ * @note The barrier self resets so that it can be reused.
+ *
+ */
 class Barrier
 {
   private:
-    unsigned const nthreads;
-    std::atomic<unsigned> spaces;
-    std::atomic<unsigned> generation;
+    std::mutex m;
+    std::condition_variable cond;
+    const unsigned n_threads;
+    unsigned count;
+
+    enum Direction : unsigned char
+    {
+        DECREASING,
+        INCREASING
+    };
+
+    Direction direction;
 
   public:
     explicit Barrier(unsigned n);

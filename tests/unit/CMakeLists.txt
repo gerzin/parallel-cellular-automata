@@ -52,6 +52,7 @@ set(unit_test_targets
     test_utilities
     test_sequential_leaks_valgrind
     test_omp_automaton
+    test_barrier
 )
 
 foreach(TARGET ${unit_test_targets})
