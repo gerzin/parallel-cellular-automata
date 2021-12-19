@@ -1,36 +1,35 @@
 /**
- * @file omp_automaton.hpp
+ * @file parallel_automaton.hpp
  * @author gerardo zinno (gerardozinno1@gmail.com)
- * @brief This file contains the definition and implementation of the Cellular Automaton parallelized using OpenMP.
+ * @brief This file contains the definition and implementation of the parallel version of the Cellular Automaton.
+ *
+ *        This version is parallelized using standard c++
  * @version 0.1
  * @date 2021-12-12
  *
  * @copyright Copyright (c) 2021
  *
  */
-#ifndef PARALLEL_CELLULAR_AUTOMATA_OMPL_AUTOMATON_HPP
-#define PARALLEL_CELLULAR_AUTOMATA_OMPL_AUTOMATON_HPP
-#include <cstddef>
-#include <functional>
-#include <iostream>
-#include <tuple>
+#ifndef PARALLEL_CELLULAR_AUTOMATA_PARALLEL_AUTOMATON_HPP
+#define PARALLEL_CELLULAR_AUTOMATA_PARALLEL_AUTOMATON_HPP
+
+#ifndef PARALLEL_CELLULAR_AUTOMATA_CELLULAR_AUTOMATA_HPP
+#include "cellular_automata.hpp"
+#endif
+
+#include <thread>
+#include <vector>
+
+using namespace std;
 
 namespace ca
 {
 /**
- * @brief Namespace containing the implementation of the parallelized version using OpenMP.
+ * @brief Namespace containing the implementation of the parallel version of the cellular automaton.
  *
  */
-namespace omp
+namespace par
 {
-/**
- * @brief Parallel Cellular Automaton using OpenMP.
- *
- * This class implements a toroidal Cellular Automaton parallelized using OpenMP.
- *
- * @tparam T type of the cells.
- *
- */
 template <typename T>
 class CellularAutomaton
 {
@@ -89,20 +88,29 @@ class CellularAutomaton
         if (steps == 0)
             return;
         // allocate new grid
-        T **new_grid = new T *[rows];
-
-#pragma omp parallel for
-        for (size_t i = 0; i < rows; ++i)
-        {
-            new_grid[i] = new T[columns];
-        }
+        T **new_grid = ca::utils::newGrid<T>(rows, columns);
+        vector<thread> workers;
+        std::barrier sync_point(workers.size());
+        auto work = [&](size_t start, size_t end) {
+            while (steps > 0)
+            {
+                for (size_t r{start}; r < end : ++r)
+                {
+                    for (size_t { c } 0; c < columns; ++c)
+                    {
+                        auto cell = std::make_tuple(grid[r][c]);
+                        new_grid[r][c] = std::apply(update_function, std::tuple_cat(cell, get_neighborhood(r, c)));
+                    }
+                }
+                sync_point.arrive_and_wait();
+            }
+        };
         // compute state and put values on the new grid.
         while (steps > 0)
         {
-#pragma omp parallel for collapse(2)
-            for (size_t r = 0; r < rows; ++r)
+            for (size_t r{0}; r < rows; ++r)
             {
-                for (size_t c = 0; c < columns; ++c)
+                for (size_t c{0}; c < columns; ++c)
                 {
                     auto cell = std::make_tuple(grid[r][c]);
                     new_grid[r][c] = std::apply(update_function, std::tuple_cat(cell, get_neighborhood(r, c)));
@@ -116,9 +124,12 @@ class CellularAutomaton
             ++generation;
             --steps;
         }
-// free the memory of the new grid
-#pragma omp parallel for
-        for (size_t i = 0; i < rows; ++i)
+        for (auto &thread : threads)
+        {
+            thread.join();
+        }
+        // free the memory of the new grid
+        for (size_t i{0}; i < rows; ++i)
         {
             delete[] new_grid[i];
         }
@@ -130,7 +141,7 @@ class CellularAutomaton
      *
      * @return size_t value of the generation member variable.
      */
-    size_t get_generation() const
+    virtual size_t get_generation() const
     {
         return generation;
     }
@@ -225,87 +236,6 @@ class CellularAutomaton
         return std::make_tuple(top_left, top, top_right, left, right, bottom_left, bottom, bottom_right);
     };
 };
-
-/**
- * @brief Utilities using OpenMP
- *
- */
-namespace utils
-{
-/**
- * @brief Allocate a new grid to be used by the automaton.
- *
- * The grid is implemented as a double-pointer matrix.
- *
- * @tparam T type of the cells
- * @param nrows number of rows of the grid.
- * @param ncols number of columns of the grid
- * @return T** pointer to the matrix.
- *
- * @note same as ca::newGrid but uses OpenMP
- */
-template <typename T>
-T **newGrid(size_t nrows, const size_t ncols)
-{
-    T **grid = new T *[nrows];
-#pragma omp parallel for
-    for (size_t i = 0; i < nrows; ++i)
-    {
-        grid[i] = new T[ncols];
-    }
-    return grid;
-}
-
-/**
- * @brief Allocate a new grid to be used by the automaton and initialise each cell with an initial value.
- *
- * The grid is implemented as a double-pointer matrix.
- *
- * @tparam T type of the cells
- * @param nrows number of rows of the grid.
- * @param ncols number of columns of the grid.
- * @param initial value used to initialise the cells.
- * @return T** pointer to the matrix.
- * @note same as ca::newGrid but uses OpenMP.
- */
-template <typename T>
-T **newGrid(size_t nrows, const size_t ncols, T initial)
-{
-    T **grid = newGrid<T>(nrows, ncols);
-
-#pragma omp parallel for collapse(2)
-    for (size_t i = 0; i < nrows; ++i)
-    {
-        for (size_t j = 0; j < ncols; ++j)
-        {
-            grid[i][j] = initial;
-        }
-    }
-
-    return grid;
-}
-
-/**
- * @brief Free a grid allocated with newGrid.
- * @see newGrid
- * @tparam T type of the grid cells.
- * @param grid the greed to free.
- * @param nrows number of rows of the grid.
- * @note same as ca::deleteGrid but uses OpenMP
- */
-template <typename T>
-void deleteGrid(T **grid, const size_t nrows)
-{
-#pragma omp parallel for
-    for (size_t i = 0; i < nrows; ++i)
-    {
-        delete[] grid[i];
-    }
-    delete[] grid;
-}
-} // namespace utils
-
-} // namespace omp
+} // namespace par
 } // namespace ca
-
 #endif

@@ -1,3 +1,10 @@
+/**
+ * @file utimer.hpp
+ * @brief definition RAII timer useful for timing sections of code.
+ * @version 0.1
+ * @date 2021-12-12
+ * @see src/utimer.cpp for the implementation.
+ */
 #ifndef PARALLEL_CELLULAR_AUTOMATA_UTIMER_HPP
 #define PARALLEL_CELLULAR_AUTOMATA_UTIMER_HPP
 

@@ -1,3 +1,11 @@
+/**
+ * @file sequential_automaton.hpp
+ * @author gerardo zinno (gerardozinno1@gmail.com)
+ * @brief This file contains the definition and implementation of the sequential version of the Cellular Automaton.
+ * @version 0.1
+ *
+ * @copyright Copyright (c) 2021
+ */
 #ifndef PARALLEL_CELLULAR_AUTOMATA_SEQUENTIAL_AUTOMATON_HPP
 #define PARALLEL_CELLULAR_AUTOMATA_SEQUENTIAL_AUTOMATON_HPP
 #include <functional>

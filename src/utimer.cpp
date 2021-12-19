@@ -1,3 +1,10 @@
+/**
+ * @file utimer.cpp
+ * @brief Implementation of the RAII timer defined un utimer.hpp
+ * @see include/utimer.hpp
+ * @copyright Copyright (c) 2021
+ *
+ */
 #include <iostream>
 #include <utimer.hpp>
 

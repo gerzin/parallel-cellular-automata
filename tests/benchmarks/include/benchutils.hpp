@@ -7,8 +7,11 @@
  */
 #ifndef PARALLEL_CELLULAR_AUTOMATA_BENCHMARK_BENCHUTILS_HPP
 #define PARALLEL_CELLULAR_AUTOMATA_BENCHMARK_BENCHUTILS_HPP
+#include <chrono>
 #include <cstddef>
 #include <iostream>
+#include <stdexcept>
+#include <thread>
 #include <utility>
 #include <vector>
 
@@ -87,14 +90,24 @@ void fill_grid_with_gosper_glider_gun(T **grid, size_t nrows, size_t ncols)
     {
         std::cerr << "The grid is too small to fit the glider." << std::endl;
         std::cerr << "Grid was (" << nrows << ", " << ncols << "). Needed at least (9,35)" << std::endl;
-        throw "Grid too small";
+        throw std::invalid_argument("Grid too small");
     }
 
-    for (auto tuple : glider_cells)
+    for (const auto &tuple : glider_cells)
     {
         auto [row, col] = tuple;
         grid[row][col] = 1;
     }
+}
+
+/**
+ * @brief Simulates work by making a thread sleep for a number of milliseconds.
+ *
+ * @param millis milliseconds to sleep.
+ */
+void simulate_work(unsigned millis)
+{
+    std::this_thread::sleep_for(std::chrono::milliseconds(millis));
 }
 
 #endif

@@ -8,6 +8,8 @@ project(PCATests    VERSION 0.1
 # specify the C++ standard
 set(CMAKE_CXX_STANDARD 17)
 set(CMAKE_CXX_STANDARD_REQUIRED True)
+set(CMAKE_BUILD_TYPE Release)
+
 
 #add_subdirectory(../ext/benchmark)
 
@@ -40,6 +42,7 @@ else()
     # if the compiler supports OpenMP, use the right flags
     if (${OPENMP_FOUND})
         add_compile_options(${OpenMP_CXX_FLAGS})
+        link_libraries(${OpenMP_CXX_FLAGS})
     endif()
 
 endif()
