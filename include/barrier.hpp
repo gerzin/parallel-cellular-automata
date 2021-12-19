@@ -20,6 +20,7 @@ class Barrier
     const unsigned n_threads;
     unsigned count;
 
+    // to make the barrier reusable first we count down and then up.
     enum Direction : unsigned char
     {
         DECREASING,
