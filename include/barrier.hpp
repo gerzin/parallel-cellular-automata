@@ -34,7 +34,7 @@ class Barrier
      * @brief Construct a new Barrier object to syncronize n threads.
      *
      * @param n number of threads to syncronize.
-     * @pre n must be greather than zero.
+     * @throws invalid_argument if n is equal to zero.
      */
     explicit Barrier(unsigned n);
     /**
