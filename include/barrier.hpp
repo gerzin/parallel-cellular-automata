@@ -30,7 +30,17 @@ class Barrier
     Direction direction;
 
   public:
+    /**
+     * @brief Construct a new Barrier object to syncronize n threads.
+     *
+     * @param n number of threads to syncronize.
+     * @pre n must be greather than zero.
+     */
     explicit Barrier(unsigned n);
+    /**
+     * @brief wait for the other threads to reach the barrier.
+     *
+     */
     void wait();
 };
 } // namespace ca
