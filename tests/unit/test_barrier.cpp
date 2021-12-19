@@ -37,10 +37,10 @@ TEST_CASE("The Barrier works correctly") {
 
     SECTION("The same barrier can be used multiple times") {
         auto thread_fn = [&]() {  
-        {
-            std::lock_guard<std::mutex> lg {m};
-            ++counter;
-        }
+            {
+                std::lock_guard<std::mutex> lg {m};
+                ++counter;
+            }
             sync_point.wait();
         };
 
