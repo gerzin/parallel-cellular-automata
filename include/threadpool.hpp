@@ -26,7 +26,16 @@ class ThreadJoiner
     std::vector<std::thread> &threads;
 
   public:
+    /**
+     * @brief Construct a new ThreadJoiner object.
+     *
+     * @param t vector containing the threads to join.
+     */
     ThreadJoiner(std::vector<std::thread> &t);
+    /**
+     * @brief Destroy the Thread Joiner object and in doing this join all the threads in the vector.
+     *
+     */
     ~ThreadJoiner();
 }
 
