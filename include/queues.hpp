@@ -15,6 +15,7 @@
 #include <functional>
 #include <memory>
 #include <mutex>
+#include <queue>
 
 /**
  * @brief A thread-safe wrapper around a queue.
@@ -30,7 +31,8 @@ class ThreadSafeQueue
      * @brief Construct a new ThreadSafeQueue object.
      *
      */
-    ThreadSafeQueue();
+    ThreadSafeQueue(){};
+
     /**
      * @brief Construct a new ThreadSafeQueue object.
      *
@@ -135,8 +137,7 @@ class ThreadSafeQueue
     mutable std::mutex m;
     std::queue<T> queue;
     std::condition_variable cond;
-
-}
+};
 
 /**
  * @brief work-stealing queue.
@@ -157,7 +158,7 @@ class WorkStealingQueue
      * @brief Construct a new WorkStealingQueue object.
      *
      */
-    WorkStealingQueue();
+    WorkStealingQueue(){};
     WorkStealingQueue(const WorkStealingQueue &other) = delete;
     /**
      * @brief Push data into the queue.
@@ -192,7 +193,7 @@ class WorkStealingQueue
         std::lock_guard<std::mutex> lock(m);
         if (queue.empty())
         {
-            return false
+            return false;
         }
         result = std::move(queue.front());
         queue.pop_front();
@@ -210,7 +211,7 @@ class WorkStealingQueue
         std::lock_guard<std::mutex> lock(m);
         if (queue.empty())
         {
-            return false
+            return false;
         }
         result = std::move(queue.back());
         queue.pop_back();
