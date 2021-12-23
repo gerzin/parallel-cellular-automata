@@ -61,7 +61,7 @@ namespace ca
                 for (unsigned i{0}; i < nthreads; ++i)
                 {
                     workers_queues.emplace_back(new WorkStealingQueue<T>);
-                threads.emplace_back(&Threadpool::worker_thread, this, i));
+                    threads.emplace_back(&Threadpool::worker_thread, this, i);
                 }
             }
             catch (...)
