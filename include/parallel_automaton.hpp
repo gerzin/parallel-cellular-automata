@@ -16,7 +16,8 @@
 #ifndef PARALLEL_CELLULAR_AUTOMATA_CELLULAR_AUTOMATA_HPP
 #include "cellular_automata.hpp"
 #endif
-
+#include <barrier.hpp>
+#include <stdexcept>
 #include <thread>
 #include <vector>
 
@@ -41,11 +42,22 @@ class CellularAutomaton
      * @param rows Number of rows of the grid.
      * @param columns Number of columns of the grid.
      * @param update_function Function used to update the state of the grid.
+     * @param nw Number of workers.
      *
      */
     CellularAutomaton(T **grid, const size_t rows, const size_t columns,
-                      std::function<T(T, T, T, T, T, T, T, T, T)> update_function)
-        : grid{grid}, rows{rows}, columns{columns}, generation(0), update_function(update_function){};
+                      std::function<T(T, T, T, T, T, T, T, T, T)> update_function, unsigned nw = 1)
+        : grid{grid}, rows{rows}, columns{columns}, generation(0), update_function(update_function), nw(nw)
+    {
+        if (!(rows && columns && grid))
+        {
+            throw invalid_argument();
+        }
+        if (!nw)
+        {
+            throw invalid_argument("Cannot have zero workers. At least one needed.");
+        }
+    };
     /**
      * @brief Construct a new Cellular Automaton object from another one using move semantic.
      * @note The old object will be left in a valid but unspecified state.
@@ -60,6 +72,7 @@ class CellularAutomaton
         columns = other.columns;
         generation = other.generation;
         update_function = other.update_function;
+        nw = other.nw;
         // set the old object in a valid state
         other.grid = nullptr;
         other.columns = 0;
@@ -90,8 +103,13 @@ class CellularAutomaton
         // allocate new grid
         T **new_grid = ca::utils::newGrid<T>(rows, columns);
         vector<thread> workers;
-        std::barrier sync_point(workers.size());
+        workers.reserve(nw);
+        ca::Barrier sync_point(nw);
+
+        thread_local unsigned step;
+
         auto work = [&](size_t start, size_t end) {
+            step = steps;
             while (steps > 0)
             {
                 for (size_t r{start}; r < end : ++r)
@@ -102,28 +120,20 @@ class CellularAutomaton
                         new_grid[r][c] = std::apply(update_function, std::tuple_cat(cell, get_neighborhood(r, c)));
                     }
                 }
-                sync_point.arrive_and_wait();
-            }
-        };
-        // compute state and put values on the new grid.
-        while (steps > 0)
-        {
-            for (size_t r{0}; r < rows; ++r)
-            {
-                for (size_t c{0}; c < columns; ++c)
-                {
-                    auto cell = std::make_tuple(grid[r][c]);
-                    new_grid[r][c] = std::apply(update_function, std::tuple_cat(cell, get_neighborhood(r, c)));
-                }
-            }
-            // swap grids so grid contains the final value.
-            T *tmp = *grid;
-            *grid = *new_grid;
-            *new_grid = tmp;
+                sync_point.wait();
+                // here only one thread has to decrement steps
+                // swap grids and increase generation.
+                // swap grids so grid contains the final value.
+                T *tmp = *grid;
+                *grid = *new_grid;
+                *new_grid = tmp;
 
-            ++generation;
-            --steps;
-        }
+                ++generation;
+                --steps;
+            }
+            // make the threads free the memory before returning.
+        };
+
         for (auto &thread : threads)
         {
             thread.join();
@@ -235,6 +245,11 @@ class CellularAutomaton
         bottom_right = grid[(row + 1) % rows][(col + 1) % columns];
         return std::make_tuple(top_left, top, top_right, left, right, bottom_left, bottom, bottom_right);
     };
+    /**
+     * @brief Number of worker threads.
+     *
+     */
+    unsigned nw;
 };
 } // namespace par
 } // namespace ca

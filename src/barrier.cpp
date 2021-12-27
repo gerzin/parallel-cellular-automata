@@ -1,3 +1,13 @@
+/**
+ * @file barrier.cpp
+ * @author Gerardo Zinno (gerardozinno1@gmail.com)
+ * @brief Implementation of the barrier defined in barrier.hpp
+ * @version 0.1
+ * @date 2021-12-22
+ *
+ * @copyright Copyright (c) 2021
+ *
+ */
 #include <barrier.hpp>
 #include <iostream>
 #include <stdexcept>

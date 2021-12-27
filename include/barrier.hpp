@@ -1,3 +1,13 @@
+/**
+ * @file barrier.hpp
+ * @author Gerardo Zinno (gerardozinno1@gmail.com)
+ * @brief This file contains the definition of a barrier for thread synchronization.
+ * @version 0.1
+ * @date 2021-12-22
+ *
+ * @copyright Copyright (c) 2021
+ *
+ */
 #ifndef PARALLEL_CELLULAR_AUTOMATA_BARRIER_HPP
 #define PARALLEL_CELLULAR_AUTOMATA_BARRIER_HPP
 #include <condition_variable>
@@ -8,7 +18,7 @@
 namespace ca
 {
 /**
- * @brief Self-resetting Synchronization barrier for threads.
+ * @brief Self-resetting synchronization barrier for threads.
  * @note The barrier self resets so that it can be reused.
  *
  */

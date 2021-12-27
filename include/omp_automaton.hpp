@@ -45,8 +45,8 @@ class CellularAutomaton
      *
      */
     CellularAutomaton(T **grid, const size_t rows, const size_t columns,
-                      std::function<T(T, T, T, T, T, T, T, T, T)> update_function)
-        : grid{grid}, rows{rows}, columns{columns}, generation(0), update_function(update_function){};
+                      std::function<T(T, T, T, T, T, T, T, T, T)> update_function, unsigned nw = 1)
+        : grid{grid}, rows{rows}, columns{columns}, generation(0), update_function(update_function), nw{nw} {};
     /**
      * @brief Construct a new Cellular Automaton object from another one using move semantic.
      * @note The old object will be left in a valid but unspecified state.
@@ -193,6 +193,13 @@ class CellularAutomaton
      *
      */
     std::function<T(T, T, T, T, T, T, T, T, T)> update_function;
+
+    /**
+     * @brief Number of worker threads.
+     *
+     */
+    unsigned nw;
+
     /**
      * @brief Get the neighborhood of a cell.
      * @code
