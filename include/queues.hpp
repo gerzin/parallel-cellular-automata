@@ -70,7 +70,7 @@ class ThreadSafeQueue
         }
         else
         {
-            result = queue.front();
+            result = std::move(queue.front());
             queue.pop();
             return true;
         }
@@ -89,7 +89,7 @@ class ThreadSafeQueue
         }
         else
         {
-            auto result = std::make_shared<T>(queue.front());
+            auto result = std::make_shared<T>(std::move(queue.front()));
             queue.pop();
             return result;
         }
@@ -103,7 +103,7 @@ class ThreadSafeQueue
     {
         std::unique_lock<std::mutex> lock(m);
         cond.wait(lock, [this] { return !queue.empty(); });
-        result = queue.front();
+        result = std::move(queue.front());
         queue.pop();
     };
     /**
@@ -115,7 +115,7 @@ class ThreadSafeQueue
     {
         std::unique_lock<std::mutex> lock(m);
         cond.wait(lock, [this] { return !queue.empty(); });
-        auto result = std::make_shared<T>(queue.front());
+        auto result = std::make_shared<T>(std::move(queue.front()));
         queue.pop();
         return result;
     }
@@ -130,6 +130,17 @@ class ThreadSafeQueue
     {
         std::lock_guard<std::mutex> lock(m);
         return queue.empty();
+    }
+
+    /**
+     * @brief returns the size of the queue. (The value may be outdated)
+     *
+     * @return size_t
+     */
+    size_t size() const
+    {
+        std::lock_guard<std::mutex> lock(m);
+        return queue.size();
     }
 
   private:
@@ -216,6 +227,16 @@ class WorkStealingQueue
         result = std::move(queue.back());
         queue.pop_back();
         return true;
+    }
+    /**
+     * @brief returns the size of the queue. (The value may be outdated)
+     *
+     * @return size_t
+     */
+    size_t size() const
+    {
+        std::lock_guard<std::mutex> lock(m);
+        return queue.size();
     }
 
   private:
