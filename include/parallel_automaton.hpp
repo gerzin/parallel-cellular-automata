@@ -106,7 +106,10 @@ class CellularAutomaton
         workers.reserve(nw);
         ca::Barrier sync_point(nw);
 
+        thread_local unsigned step;
+
         auto work = [&](size_t start, size_t end) {
+            step = steps;
             while (steps > 0)
             {
                 for (size_t r{start}; r < end : ++r)
