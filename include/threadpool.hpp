@@ -41,72 +41,6 @@ class ThreadJoiner
     ~ThreadJoiner();
 };
 
-namespace // unnamed namespace to keep this names inside this unit.
-{
-
-/**
- * @brief Callable class that wraps a function. Will contain the tasks that will be run by the threadpool.
- *
- */
-class Callable
-{
-  private:
-    // abstract callable class for the smart pointer
-    struct abstract_callable
-    {
-        virtual void call() = 0;
-        virtual ~abstract_callable(){};
-    };
-
-    std::unique_ptr<abstract_callable> callable;
-
-    // concrete function wrapper
-    template <typename Function>
-    struct concrete_callable : abstract_callable
-    {
-      public:
-        Function f;
-        concrete_callable(Function &&fun) : f(std::move(fun))
-        {
-        }
-
-        void call()
-        {
-            f();
-        }
-    };
-
-  public:
-    template <typename Function>
-    Callable(Function &&fun) : callable(new concrete_callable<Function>(std::move(fun)))
-    {
-    }
-
-    void operator()()
-    {
-        callable->call();
-    }
-
-    Callable() = default;
-
-    Callable(Callable &&other) : callable(std::move(other.callable))
-    {
-    }
-
-    Callable &operator=(Callable &&other)
-    {
-        callable = std::move(other.callable);
-        return *this;
-    }
-
-    Callable &operator=(const Callable &) = delete;
-
-    Callable(const Callable &other) = delete;
-
-    Callable(Callable &other) = delete;
-};
-
-} // namespace
 namespace ca
 {
 /**
@@ -115,73 +49,69 @@ namespace ca
  */
 class Threadpool
 {
+
+    using QueuesContentType = std::function<void()>;
+
   public:
     /**
      * @brief Construct a new Threadpool object.
      *
      * @param nw number of workers. If 0 hardwareconcurrency is used. (default 0)
      */
-    Threadpool(unsigned nw = 0) : done(false), joiner(threads)
-    {
+    Threadpool(unsigned nw = 0);
 
-        unsigned nthreads = nw;
-        if (!nthreads)
-        {
-            nthreads = std::thread::hardware_concurrency();
-        }
-        workers_queues.reserve(nthreads);
-        threads.reserve(nthreads);
-        // starting threads.
-        try
-        {
-            for (unsigned i{0}; i < nthreads; ++i)
-            {
-                workers_queues.emplace_back(new WorkStealingQueue<Callable>);
-                threads.emplace_back(&Threadpool::worker_thread, this, i);
-            }
-        }
-        catch (...)
-        {
-            done = true;
-            throw;
-        }
-    }
-    ~Threadpool()
-    {
-        // the join is done by the ThreadJoiner.
-        done = true;
-    }
+    /**
+     * @brief Destroy the Threadpool object.
+     *
+     */
+    ~Threadpool();
 
     /**
      * @brief Get the number of worker threads.
      *
      * @return size_t the number of worker threads.
      */
-    size_t get_number_workers() const
-    {
-        return threads.size();
-    }
+    size_t get_number_workers() const;
 
-    template <typename Function>
-    auto submit(Function f)
+    template <class F, class... Args>
+    auto submit(F &&f, Args &&...args) -> std::future<typename std::result_of<F(Args...)>::type>
     {
-        // type of the result returned by f
-        std::packaged_task<typename std::result_of<Function()>::type> task(std::move(f));
-        auto result = task.get_future();
-        threadpool_work_queue.push(std::move(task));
-        return result;
+        // type returned by f(args)
+        using return_value_type = typename std::result_of<F(Args...)>::type;
+
+        /*
+         * std::bind creates a function wrapper "g" s.t. g == f(args)
+         */
+        auto task = std::make_shared<std::packaged_task<return_value_type()>>(
+            std::bind(std::forward<F>(f), std::forward<Args>(args)...));
+        // with the packaged task we split the execution from the return value
+        std::future<return_value_type> future_result(task->get_future());
+
+        if (local_queue)
+        {
+            // to avoid cache ping-pong and improve performances each thread pushes on its individual queue if it can.
+            local_queue->push([task]() {
+                // dereference the package
+                (*task)();
+            });
+        }
+        else
+        {
+            threadpool_work_queue.push([task]() { (*task)(); });
+        }
+
+        return future_result;
     }
 
   private:
     std::atomic<bool> done;
-    ThreadSafeQueue<Callable> threadpool_work_queue;
-    std::vector<std::unique_ptr<WorkStealingQueue<Callable>>> workers_queues;
+    ThreadSafeQueue<QueuesContentType> threadpool_work_queue;
+    std::vector<std::unique_ptr<WorkStealingQueue<QueuesContentType>>> workers_queues;
     std::vector<std::thread> threads;
     ThreadJoiner joiner;
 
     // Try to steal the work from other thread's queues.
-
-    bool try_stealing_work(Callable &result)
+    bool try_stealing_work(QueuesContentType &result)
     {
         unsigned qsize = workers_queues.size();
         for (unsigned i = 0; i < qsize; ++i)
@@ -195,33 +125,12 @@ class Threadpool
         return false;
     }
 
-    // thread-local
-    static thread_local WorkStealingQueue<Callable> *local_queue;
+    // thread-local variables containing the thread index and the local queue.
+    static thread_local WorkStealingQueue<QueuesContentType> *local_queue;
     static thread_local unsigned thread_index;
 
     // work stealing worker
-    void worker_thread(unsigned index)
-    {
-        thread_index = index;
-        local_queue = workers_queues[index].get();
-        while (!done)
-        {
-            Callable task;
-            if ((local_queue && local_queue->try_pop(task)) // try pop from local
-                || threadpool_work_queue.try_pop(task)      // try pop from threadpool pool
-                || try_stealing_work(task)                  // try to steal work from other threads
-            )
-            {
-                // now task contains something executable.
-                task();
-            }
-            else
-            {
-                // give-up the CPU to another thread so progress can be made.
-                std::this_thread::yield();
-            }
-        }
-    }
+    void worker_thread(unsigned index);
 };
 } // namespace ca
 

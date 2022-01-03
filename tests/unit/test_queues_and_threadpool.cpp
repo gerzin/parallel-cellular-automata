@@ -4,6 +4,7 @@
 #endif
 #include "../ext/catch/catch.hpp"
 // clang-format on
+#include <climits>
 #include <queues.hpp>
 #include <threadpool.hpp>
 
@@ -132,4 +133,21 @@ TEST_CASE("The thread-safe queues work")
 
 TEST_CASE("The threadpool works correctly")
 {
+    std::atomic<unsigned> counter;
+    ca::Threadpool pool;
+
+    REQUIRE(pool.get_number_workers() == std::thread::hardware_concurrency());
+
+    auto fun = [&](int i) { counter += i; };
+
+    for (int i = 0; i < 10000)
+    {
+        pool.submit(fun, i);
+    }
+
+    TEST_CASE("Non-default number of workers")
+    {
+        ca::Threadpool pool(6);
+        REQUIRE(pool.get_number_workers() == 6);
+    }
 }

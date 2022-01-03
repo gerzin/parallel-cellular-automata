@@ -3,7 +3,7 @@
 #include <iostream>
 // clang-format off
 #include "sequential_automaton.hpp"
-#include "parallel_automaton.hpp"
+//#include "parallel_automaton.hpp"
 #include "omp_automaton.hpp"
 // clang-format on
 

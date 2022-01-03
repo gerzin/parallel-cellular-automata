@@ -19,6 +19,7 @@
 #include <barrier.hpp>
 #include <stdexcept>
 #include <thread>
+#include <threadpool.hpp>
 #include <vector>
 
 using namespace std;
@@ -42,20 +43,16 @@ class CellularAutomaton
      * @param rows Number of rows of the grid.
      * @param columns Number of columns of the grid.
      * @param update_function Function used to update the state of the grid.
-     * @param nw Number of workers.
+     * @param nw Number of workers (0 == hadrwareconcurrency) (default 0).
      *
      */
     CellularAutomaton(T **grid, const size_t rows, const size_t columns,
-                      std::function<T(T, T, T, T, T, T, T, T, T)> update_function, unsigned nw = 1)
-        : grid{grid}, rows{rows}, columns{columns}, generation(0), update_function(update_function), nw(nw)
+                      std::function<T(T, T, T, T, T, T, T, T, T)> update_function, unsigned nw = 0)
+        : grid{grid}, rows{rows}, columns{columns}, generation(0), update_function(update_function), nw(nw), pool(nw)
     {
         if (!(rows && columns && grid))
         {
-            throw invalid_argument();
-        }
-        if (!nw)
-        {
-            throw invalid_argument("Cannot have zero workers. At least one needed.");
+            throw invalid_argument("Ill-formed or missing grid");
         }
     };
     /**
@@ -102,17 +99,14 @@ class CellularAutomaton
             return;
         // allocate new grid
         T **new_grid = ca::utils::newGrid<T>(rows, columns);
-        vector<thread> workers;
-        workers.reserve(nw);
-        ca::Barrier sync_point(nw);
 
-        thread_local unsigned step;
+        ca::Barrier sync_point(nw);
 
         auto work = [&](size_t start, size_t end) {
             step = steps;
             while (steps > 0)
             {
-                for (size_t r{start}; r < end : ++r)
+                for (size_t r{start}; r < end; ++r)
                 {
                     for (size_t { c } 0; c < columns; ++c)
                     {
@@ -250,6 +244,12 @@ class CellularAutomaton
      *
      */
     unsigned nw;
+
+    /**
+     * @brief The threadpool that will run the tasks.
+     *
+     */
+    Threadpool pool;
 };
 } // namespace par
 } // namespace ca
