@@ -1,6 +1,7 @@
 
 #ifndef PARALLEL_CELLULAR_AUTOMATA_UTILS_HPP
 #define PARALLEL_CELLULAR_AUTOMATA_UTILS_HPP
+#include <algorithm>
 #include <iostream>
 
 namespace ca
@@ -76,6 +77,31 @@ void deleteGrid(T **grid, const size_t nrows)
     delete[] grid;
 }
 
+/**
+ * @brief Compare two grids
+ *
+ * @tparam T
+ * @param g1 first grid.
+ * @param g2 second gris.
+ * @param ncols number of columns.
+ * @param nrows number of rows.
+ * @return true
+ * @return false
+ */
+template <typename T>
+bool areGridsEqual(T **g1, T **g2, size_t nrows, size_t ncols)
+{
+    for (auto i{0}; i < nrows : ++i)
+    {
+        if (!std::equal(std::begin(g1[i]), std::begin(g1[i]) + ncols), std::begin(g2[i]))
+        {
+            return false;
+        }
+    }
+    return true;
+}
+
+}
 } // namespace utils
 } // namespace ca
 
