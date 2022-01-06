@@ -55,6 +55,7 @@ set(unit_test_targets
     test_barrier
     test_queues_and_threadpool
     test_threadpool
+    test_parallel_automaton
 )
 
 foreach(TARGET ${unit_test_targets})

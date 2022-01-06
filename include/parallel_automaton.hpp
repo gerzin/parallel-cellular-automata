@@ -16,6 +16,8 @@
 #ifndef PARALLEL_CELLULAR_AUTOMATA_CELLULAR_AUTOMATA_HPP
 #include "cellular_automata.hpp"
 #endif
+#include "utils.hpp"
+
 #include <barrier.hpp>
 #include <stdexcept>
 #include <thread>
@@ -48,12 +50,13 @@ class CellularAutomaton
      */
     CellularAutomaton(T **grid, const size_t rows, const size_t columns,
                       std::function<T(T, T, T, T, T, T, T, T, T)> update_function, unsigned nw = 0)
-        : grid{grid}, rows{rows}, columns{columns}, generation(0), update_function(update_function), nw(nw), pool(nw)
+        : grid{grid}, rows{rows}, columns{columns}, generation(0), update_function(update_function), pool(nw)
     {
         if (!(rows && columns && grid))
         {
             throw invalid_argument("Ill-formed or missing grid");
         }
+        nw = pool.get_number_workers();
     };
     /**
      * @brief Construct a new Cellular Automaton object from another one using move semantic.
@@ -70,6 +73,7 @@ class CellularAutomaton
         generation = other.generation;
         update_function = other.update_function;
         nw = other.nw;
+        pool = std::move(other.pool);
         // set the old object in a valid state
         other.grid = nullptr;
         other.columns = 0;
@@ -102,42 +106,47 @@ class CellularAutomaton
 
         ca::Barrier sync_point(nw);
 
-        auto work = [&](size_t start, size_t end) {
-            step = steps;
+        // function to be run by each thread
+        auto work = [&, this](unsigned start, unsigned end) {
             while (steps > 0)
             {
-                for (size_t r{start}; r < end; ++r)
+                for (unsigned r{start}; r < end; ++r)
                 {
-                    for (size_t { c } 0; c < columns; ++c)
+                    for (unsigned c{0}; c < columns; ++c)
                     {
-                        auto cell = std::make_tuple(grid[r][c]);
-                        new_grid[r][c] = std::apply(update_function, std::tuple_cat(cell, get_neighborhood(r, c)));
+                        auto cell = std::make_tuple(this->grid[r][c]);
+                        new_grid[r][c] =
+                            std::apply(this->update_function, std::tuple_cat(cell, get_neighborhood(r, c)));
                     }
                 }
-                sync_point.wait();
-                // here only one thread has to decrement steps
-                // swap grids and increase generation.
-                // swap grids so grid contains the final value.
-                T *tmp = *grid;
-                *grid = *new_grid;
-                *new_grid = tmp;
+                sync_point.wait([&]() {
+                    // this gets executed only by the last thread to reach the barrier
+                    T *tmp = *grid;
+                    *grid = *new_grid;
+                    *new_grid = tmp;
 
-                ++generation;
-                --steps;
+                    ++generation;
+                    --steps;
+                });
             }
-            // make the threads free the memory before returning.
+            // TODO: benchmark to see if it is better to have one thread free its memory or a general free at the end
         };
-
-        for (auto &thread : threads)
+        std::vector<std::future<void>> results; // handles for waiting the threads
+        results.reserve(nw);
+        unsigned delta{static_cast<unsigned>(this->rows) / nw};
+        for (unsigned i{0}; i < nw; i++) // split the grid
         {
-            thread.join();
+            unsigned start = i * delta;
+            unsigned end = (i != (nw - 1) ? (i + 1) * delta : this->rows);
+            results.push_back(pool.submit(work, start, end));
+        }
+        for (auto &r : results)
+        {
+            r.wait();
+            // TODO: consider deallocating here the portion of grid used by the worker
         }
         // free the memory of the new grid
-        for (size_t i{0}; i < rows; ++i)
-        {
-            delete[] new_grid[i];
-        }
-        delete[] new_grid;
+        ca::utils::deleteGrid<T>(new_grid, this->rows);
     }
 
     /**
