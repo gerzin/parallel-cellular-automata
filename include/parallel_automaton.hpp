@@ -56,7 +56,7 @@ class CellularAutomaton
         {
             throw invalid_argument("Ill-formed or missing grid");
         }
-        nw = pool.get_number_workers();
+        this->nw = pool.get_number_workers();
     };
     /**
      * @brief Construct a new Cellular Automaton object from another one using move semantic.
@@ -106,6 +106,15 @@ class CellularAutomaton
 
         ca::Barrier sync_point(nw);
 
+        auto step_advancement_fun = [&]() {
+            T *tmp = *grid;
+            *grid = *new_grid;
+            *new_grid = tmp;
+
+            ++generation;
+            --steps;
+        };
+
         // function to be run by each thread
         auto work = [&, this](unsigned start, unsigned end) {
             while (steps > 0)
@@ -119,27 +128,23 @@ class CellularAutomaton
                             std::apply(this->update_function, std::tuple_cat(cell, get_neighborhood(r, c)));
                     }
                 }
-                sync_point.wait([&]() {
-                    // this gets executed only by the last thread to reach the barrier
-                    T *tmp = *grid;
-                    *grid = *new_grid;
-                    *new_grid = tmp;
-
-                    ++generation;
-                    --steps;
-                });
+                sync_point.wait(
+                    step_advancement_fun); // this gets executed only by the last thread to reach the barrier
             }
             // TODO: benchmark to see if it is better to have one thread free its memory or a general free at the end
         };
+
         std::vector<std::future<void>> results; // handles for waiting the threads
-        results.reserve(nw);
         unsigned delta{static_cast<unsigned>(this->rows) / nw};
+
         for (unsigned i{0}; i < nw; i++) // split the grid
         {
             unsigned start = i * delta;
             unsigned end = (i != (nw - 1) ? (i + 1) * delta : this->rows);
+
             results.push_back(pool.submit(work, start, end));
         }
+
         for (auto &r : results)
         {
             r.wait();
