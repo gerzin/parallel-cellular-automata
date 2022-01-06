@@ -58,6 +58,31 @@ TEST_CASE("The Barrier works correctly") {
         REQUIRE(counter == 2*nthreads);
 
     }
+
+    SECTION("The last thread will call the function") {
+        auto thread_fn = [&]() {  
+            {
+                std::lock_guard<std::mutex> lg {m};
+                ++counter;
+            }
+            sync_point.wait([](){
+                std::cout << "I'm the last thread" << std::endl;
+            });
+        };
+
+        std::vector<std::thread> threads;
+        threads.reserve(nthreads);
+        
+        for(unsigned i = 0; i < nthreads; ++i){
+            threads.emplace_back(thread_fn);
+        }
+
+        for(auto& t: threads) {
+            t.join();
+        }
+
+        REQUIRE(counter == 3*nthreads);
+    }
     
     
 }

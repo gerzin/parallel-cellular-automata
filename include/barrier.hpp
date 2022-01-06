@@ -14,6 +14,7 @@
 #include <mutex>
 #include <thread>
 #include <vector>
+#include <functional>
 
 namespace ca
 {
@@ -52,6 +53,12 @@ class Barrier
      *
      */
     void wait();
+    /**
+     * @brief wait for the other treads to reach the barrier and exec fun bebore notyfying others if you are the last thread to reach it.
+     * 
+     * @param fun function that the last thread to reach the barrier will execute before notifying.
+     */
+    void wait(std::function<void()> fun);
 };
 } // namespace ca
 #endif

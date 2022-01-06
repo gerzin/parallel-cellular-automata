@@ -57,3 +57,43 @@ void ca::Barrier::wait()
         }
     }
 }
+
+void ca::Barrier::wait(std::function<void()> fun)
+{
+    std::unique_lock<std::mutex> lock{m};
+
+    // counting down
+    if (direction == DECREASING)
+    {
+        if (--count) // > 0
+        {
+            // wait for a change of direction. (All other threads reached the barrier)
+            cond.wait(lock, [this] { return this->direction == INCREASING; });
+        }
+        else
+        {
+            // I'm the last thread to reach the barrier.
+            fun();
+            direction = INCREASING;
+            cond.notify_all();
+        }
+    }
+
+    else // direction == INCREASING
+    {
+        // counting up
+        if (++count < n_threads)
+        {
+            // wait for a change of direction. (All other threads reached the barrier)
+            cond.wait(lock, [this] { return this->direction == DECREASING; });
+        }
+        else
+        {
+            // count == n_threads;
+            // I'm the last thread to reach the barrier.
+            fun();
+            direction = DECREASING;
+            cond.notify_all();
+        }
+    }
+}
