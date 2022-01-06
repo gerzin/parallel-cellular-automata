@@ -10,6 +10,7 @@
  */
 #ifndef PARALLEL_CELLULAR_AUTOMATA_OMPL_AUTOMATON_HPP
 #define PARALLEL_CELLULAR_AUTOMATA_OMPL_AUTOMATON_HPP
+#include "utils.hpp"
 #include <cstddef>
 #include <functional>
 #include <iostream>
