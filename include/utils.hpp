@@ -1,4 +1,13 @@
-
+/**
+ * @file utils.hpp
+ * @author Gerardo Zinno (g.zinno@studenti.unipi.it)
+ * @brief
+ * @version 0.1
+ * @date 2022-01-07
+ *
+ * @copyright Copyright (c) 2022
+ *
+ */
 #ifndef PARALLEL_CELLULAR_AUTOMATA_UTILS_HPP
 #define PARALLEL_CELLULAR_AUTOMATA_UTILS_HPP
 #include <algorithm>
@@ -21,7 +30,8 @@ namespace utils
  */
 template <typename T>
 T **newGrid(size_t nrows, const size_t ncols)
-{
+{ // TODO: if the deallocation of individual chunck by threads isn't faster, just allocate one big chunk and then assign
+  // pointers to rows
     T **grid = new T *[nrows];
     for (size_t i{0}; i < nrows; ++i)
     {
