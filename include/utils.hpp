@@ -6,12 +6,9 @@
 
 namespace ca
 {
-/**
- * @brief Namespace containing utility functions
- *
- */
 namespace utils
 {
+
 /**
  * @brief Allocate a new grid to be used by the automaton.
  *
@@ -91,16 +88,15 @@ void deleteGrid(T **grid, const size_t nrows)
 template <typename T>
 bool areGridsEqual(T **g1, T **g2, size_t nrows, size_t ncols)
 {
-    for (auto i{0}; i < nrows : ++i)
+    for (size_t i{0}; i < nrows; ++i)
     {
-        if (!std::equal(std::begin(g1[i]), std::begin(g1[i]) + ncols), std::begin(g2[i]))
+        for (size_t j{0}; j < ncols; ++j)
         {
-            return false;
+            if (g1[i][j] != g2[i][j])
+                return false;
         }
     }
     return true;
-}
-
 }
 } // namespace utils
 } // namespace ca

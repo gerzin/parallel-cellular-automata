@@ -36,8 +36,11 @@ TEST_CASE("The newGrid and deleteGrid functions work correctly")
         cout << endl;
     }
 
-    // SECTION("deleteGrid")
-    //{
     utils::deleteGrid<int>(grid, nrows);
-    //}
+
+    auto g1 = utils::newGrid<int>(5, 5, 10);
+    auto g2 = utils::newGrid<int>(5, 5, 10);
+
+    REQUIRE(g1[0][0] == 10);
+    REQUIRE(utils::areGridsEqual(g1, g2, 5, 5));
 }
