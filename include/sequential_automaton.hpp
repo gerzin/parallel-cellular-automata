@@ -91,11 +91,8 @@ class CellularAutomaton
         if (steps == 0)
             return;
         // allocate new grid
-        T **new_grid = new T *[rows];
-        for (size_t i{0}; i < rows; ++i)
-        {
-            new_grid[i] = new T[columns];
-        }
+        T **new_grid = ca::utils::newGrid<T>(rows, columns);
+
         // compute state and put values on the new grid.
         while (steps > 0)
         {
@@ -108,19 +105,13 @@ class CellularAutomaton
                 }
             }
             // swap grids so grid contains the final value.
-            T *tmp = *grid;
-            *grid = *new_grid;
-            *new_grid = tmp;
+            std::swap(grid, new_grid);
 
             ++generation;
             --steps;
         }
         // free the memory of the new grid
-        for (size_t i{0}; i < rows; ++i)
-        {
-            delete[] new_grid[i];
-        }
-        delete[] new_grid;
+        ca::utils::deleteGrid(new_grid, rows);
     }
 
     /**

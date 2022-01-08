@@ -108,6 +108,20 @@ bool areGridsEqual(T **g1, T **g2, size_t nrows, size_t ncols)
     }
     return true;
 }
+
+template <typename T>
+void printGrid(T **g, size_t nrows, size_t ncols)
+{
+    for (size_t i{0}; i < nrows; ++i)
+    {
+        for (size_t j{0}; j < ncols; ++j)
+        {
+            std::cout << g[i][j] << " ";
+        }
+        std::cout << std::endl;
+    }
+}
+
 } // namespace utils
 } // namespace ca
 

@@ -1,33 +1,27 @@
 #include "../../include/cellular_automata.hpp"
+#include "../../include/grid.hpp"
+
 #include <iostream>
 using namespace ca;
 using namespace std;
 
 int main()
 {
-    int **grid = nullptr;
-    size_t nrows{20};
+    ca::Grid<int> grid(10, 10);
+    cout << grid << endl;
 
+    auto b = ca::Grid<int>::newWithSameSize(grid);
+
+    for (auto i = 0; i < 10; ++i)
     {
-        grid = utils::newGrid<int>(nrows, nrows);
+        b[i][0] = 1;
     }
 
-    for (size_t i = 0; i < nrows; ++i)
-    {
-        for (size_t j = 0; j < nrows; ++j)
-        {
-            grid[i][j] = 9;
-        }
-    }
+    std::swap(grid, b);
 
-    for (size_t i = 0; i < nrows; ++i)
-    {
-        for (size_t j = 0; j < nrows; ++j)
-        {
-            cout << grid[i][j] << " ";
-        }
-        cout << endl;
-    }
+    cout << grid << endl;
 
-    utils::deleteGrid<int>(grid, nrows);
+    cout << "*********************" << endl;
+
+    cout << b << endl;
 }
