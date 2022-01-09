@@ -38,6 +38,7 @@ class Grid
         grid.reserve(nrows * ncols);
     }
     // TODO: add move and copy constructor.
+
     /**
      * @b.rief Return a grid of the same dimension of the grid passed as argument
      *
@@ -80,7 +81,7 @@ class Grid
      *
      * @return size_t number of rows.
      */
-    size_t rows() const
+    inline size_t rows() const
     {
         return this->nrows;
     }
@@ -89,7 +90,7 @@ class Grid
      *
      * @return size_t  number of columns.
      */
-    size_t columns() const
+    inline size_t columns() const
     {
         return this->columns;
     }
@@ -117,13 +118,13 @@ class Grid
         return os;
     }
 
-    friend void swap(Grid &a, Grid &b)
+    void swap(Grid &other)
     {
         using std::swap;
         std::cout << "Custom Swap Used" << std::endl;
-        swap(a.nrwow, b.nrows);
-        swap(a.ncols, b.ncols);
-        a.grid.swap(b.grid);
+        swap(nrows, other.nrows);
+        swap(ncols, other.ncols);
+        grid.swap(other.grid);
     }
 
   private:
