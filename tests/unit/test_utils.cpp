@@ -14,7 +14,7 @@ int main()
 
     for (auto i = 0; i < 10; ++i)
     {
-        b[i][0] = 1;
+        b(i, 0) = 1;
     }
 
     std::swap(grid, b);

@@ -16,43 +16,91 @@ namespace ca
 /**
  * @brief Grid of the cellular automaton.
  *
- * @tparam T
+ * @tparam T type of the cell.
  */
 template <typename T>
 class Grid
 {
   public:
+    /**
+     * @brief Construct a new Grid object.
+     *
+     * @param rows number of rows of the grid.
+     * @param cols number of columns of the grid.
+     * @throws invalid_argument if either rows or cols are zero.
+     */
     Grid(size_t rows, size_t cols) : nrows(rows), ncols(cols)
     {
+        if (!(nrows & ncols))
+        {
+            throw std::invalid_argument("Grid constructor has 0 size.");
+        }
         grid.reserve(nrows * ncols);
     }
-
+    // TODO: add move and copy constructor.
     /**
-     * @brief Returns a pointer to the beginning of the indexed row.
+     * @b.rief Return a grid of the same dimension of the grid passed as argument
      *
-     * @param index index of the row.
-     * @return const T*
+     * @param other  Grid whose dimension has to be taken.
+     * @return Grid new grid of same dimension.
      */
-    const T *operator[](int index) const
-    {
-        return &grid[index];
-    }
-
     static Grid newWithSameSize(const Grid &other)
     {
         return Grid(other.nrows, other.ncols);
     }
+    /**
+     * @brief Get the element in position row,col.
+     *
+     * @param row row number.
+     * @param col column number.
+     * @pre 0 <= rows < this->nrows
+     * @pre 0 <= col < this->ncols
+     * @return T& reference to the element in position row,col
+     */
+    T &operator()(unsigned row, unsigned col)
+    {
+        return grid[ncols * row + col];
+    }
+    /**
+     * @brief Get the element in position row,col.
+     *
+     * @param row row number.
+     * @param col column number.
+     * @pre 0 <= rows < this->nrows
+     * @pre 0 <= col < this->ncols
+     * @return T& reference to the element in position row,col
+     */
+    T operator()(unsigned row, unsigned col) const
+    {
+        return grid[ncols * row + col];
+    }
 
+    /**
+     * @brief Returns the number of rows of the grid.
+     *
+     * @return size_t number of rows.
+     */
     size_t rows() const
     {
         return this->nrows;
     }
-
+    /**
+     * @brief Returns the number of columns of the grid.
+     *
+     * @return size_t  number of columns.
+     */
     size_t columns() const
     {
         return this->columns;
     }
-
+    /**
+     * @brief Prints the grid on the stream, with the elements in a row separated by a whitespace and the rows separated
+     * by a newline.
+     *
+     * @param os output stream on which to print.
+     * @param grid grid to print.
+     * @return std::ostream&
+     */
     friend std::ostream &operator<<(std::ostream &os, const Grid &grid)
     {
 
@@ -60,7 +108,7 @@ class Grid
         {
             for (size_t j = 0; j < grid.ncols; ++j)
             {
-                os << grid[i][j] << " ";
+                os << grid(i, j) << " ";
             }
 
             os << std::endl;
@@ -72,14 +120,10 @@ class Grid
     friend void swap(Grid &a, Grid &b)
     {
         using std::swap;
+        std::cout << "Custom Swap Used" << std::endl;
         swap(a.nrwow, b.nrows);
         swap(a.ncols, b.ncols);
         a.grid.swap(b.grid);
-    }
-
-    std::vector<T> &getGridVector()
-    {
-        return this->grid;
     }
 
   private:
