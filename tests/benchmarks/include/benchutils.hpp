@@ -7,6 +7,7 @@
  */
 #ifndef PARALLEL_CELLULAR_AUTOMATA_BENCHMARK_BENCHUTILS_HPP
 #define PARALLEL_CELLULAR_AUTOMATA_BENCHMARK_BENCHUTILS_HPP
+#include "../../../include/grid.hpp"
 #include <chrono>
 #include <cstddef>
 #include <iostream>
@@ -84,19 +85,19 @@ const std::vector<std::pair<short, short>> glider_cells = {
  * @pre ncols >= 35  (possibly >>)
  */
 template <typename T>
-void fill_grid_with_gosper_glider_gun(T **grid, size_t nrows, size_t ncols)
+void fill_grid_with_gosper_glider_gun(ca::Grid<T> &grid)
 {
-    if (nrows < 9 || ncols < 35)
+    if (grid.rows() < 9 || grid.columns() < 35)
     {
         std::cerr << "The grid is too small to fit the glider." << std::endl;
-        std::cerr << "Grid was (" << nrows << ", " << ncols << "). Needed at least (9,35)" << std::endl;
-        throw std::invalid_argument("Grid too small");
+        std::cerr << "Grid was (" << grid.rows() << ", " << grid.columns() << "). Needed at least (9,35)" << std::endl;
+        throw std::invalid_argument("Grid too small to fit the glider");
     }
 
     for (const auto &tuple : glider_cells)
     {
         auto [row, col] = tuple;
-        grid[row][col] = 1;
+        grid(row, col) = 1;
     }
 }
 
