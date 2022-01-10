@@ -8,8 +8,15 @@
  * @copyright Copyright (c) 2022
  *
  */
-#include <array>
+#ifndef PARALLEL_CELLULAR_AUTOMATA_GRID_HPP
+#define PARALLEL_CELLULAR_AUTOMATA_GRID_HPP
+
+#include <exception>
+#include <iostream>
 #include <memory>
+#include <string>
+#include <vector>
+
 namespace ca
 {
 
@@ -29,18 +36,40 @@ class Grid
      * @param cols number of columns of the grid.
      * @throws invalid_argument if either rows or cols are zero.
      */
-    Grid(size_t rows, size_t cols) : nrows(rows), ncols(cols)
+    Grid(size_t rows, size_t cols) : grid(rows * cols), nrows(rows), ncols(cols)
     {
-        if (!(nrows & ncols))
+        if (!grid.size())
         {
             throw std::invalid_argument("Grid constructor has 0 size.");
         }
-        grid.reserve(nrows * ncols);
     }
-    // TODO: add move and copy constructor.
 
     /**
-     * @b.rief Return a grid of the same dimension of the grid passed as argument
+     * @brief Construct a new Grid object.
+     *
+     * @param other grid to copy.
+     */
+    Grid(const Grid &other)
+    {
+        nrows = other.nrows;
+        ncols = other.ncols;
+        grid = other.grid;
+    }
+
+    /**
+     * @brief Construct a new Grid object.
+     *
+     * @param other grid to copy.
+     */
+    Grid(Grid &&other)
+    {
+        nrows = other.nrows;
+        ncols = other.ncols;
+        grid = std::move(other.grid);
+    }
+
+    /**
+     * @brief Return a grid of the same dimension of the grid passed as argument.
      *
      * @param other  Grid whose dimension has to be taken.
      * @return Grid new grid of same dimension.
@@ -49,6 +78,38 @@ class Grid
     {
         return Grid(other.nrows, other.ncols);
     }
+
+    /**
+     * @brief Load a grid from a file.
+     *
+     * @param filepath path to the file.
+     * @return Grid grid initialized with the content of the file.
+     */
+    /*
+        static Grid newFromFile(std::string filepath)
+        {
+            std::ifstream f(filepath);
+            if (f)
+            {
+
+                unsigned rows, columns;
+                f >> rows;
+                f >> columns;
+                std::vector<T> v;
+                v.reserve(rows * columns);
+                T value;
+                while (f >> value)
+                {
+                    v.push_back(value);
+                }
+                return Grid(std::move(v), rows, columns);
+            }
+            else
+            {
+                throw std::invalid_argument("Invalid filepath");
+            }
+        }
+    */
     /**
      * @brief Get the element in position row,col.
      *
@@ -92,7 +153,7 @@ class Grid
      */
     inline size_t columns() const
     {
-        return this->columns;
+        return this->ncols;
     }
     /**
      * @brief Prints the grid on the stream, with the elements in a row separated by a whitespace and the rows separated
@@ -104,7 +165,6 @@ class Grid
      */
     friend std::ostream &operator<<(std::ostream &os, const Grid &grid)
     {
-
         for (size_t i = 0; i < grid.nrows; ++i)
         {
             for (size_t j = 0; j < grid.ncols; ++j)
@@ -117,20 +177,65 @@ class Grid
 
         return os;
     }
+    /**
+     * @brief Compare two grids for equality.
+     *
+     * @return true if the grids are equal.
+     * @return false if the grids differ.
+     */
+    friend bool operator==(const Grid &lhs, const Grid &rhs)
+    {
+        return (lhs.nrows == rhs.nrows) && (lhs.ncols == rhs.ncols) &&
+               std::equal(lhs.grid.begin(), lhs.grid.end(), rhs.grid.begin());
+    }
 
+    /**
+     * @brief Swap the content of the grid with the one of another grid.
+     *
+     * @param other grid to swap.
+     */
     void swap(Grid &other)
     {
         using std::swap;
-        std::cout << "Custom Swap Used" << std::endl;
         swap(nrows, other.nrows);
         swap(ncols, other.ncols);
         grid.swap(other.grid);
     }
 
+    /**
+     * @brief Get a reference to the vector representing the grid.
+     *
+     * @return std::vector<T>& vector representing the grid.
+     */
+    std::vector<T> &getInnerVector()
+    {
+        return grid;
+    }
+
   private:
+    Grid(std::vector<T> &&v, size_t rows, size_t cols) : grid(std::move(v)), nrows(rows), ncols(cols)
+    {
+        if (!(v.size() && rows && cols))
+        {
+            throw std::invalid_argument("Empty vector or invalid dimension");
+        }
+    }
+    /**
+     * @brief The grid is represented as a 1D vector.
+     *
+     */
     std::vector<T> grid;
+    /**
+     * @brief Number of rows of the grid.
+     *
+     */
     size_t nrows;
+    /**
+     * @brief Number of columns of the grid.
+     *
+     */
     size_t ncols;
 };
 
 } // namespace ca
+#endif
