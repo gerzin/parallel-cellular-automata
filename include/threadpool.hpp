@@ -13,11 +13,11 @@
 #include <atomic>
 #include <future>
 #include <memory>
+#include <pthread.h>
 #include <queues.hpp>
 #include <thread>
 #include <type_traits>
 #include <vector>
-
 /**
  * @brief RAII class to join threads.
  * @see threadjoiner.cpp for the implementation
