@@ -51,6 +51,7 @@ set(
     BENCHMARK_TARGETS
     bench_sequential_automaton
     bench_omp_automaton
+    bench_parallel_automaton
 )
 
 foreach(TARGET ${BENCHMARK_TARGETS})
