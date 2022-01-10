@@ -73,6 +73,17 @@ class Threadpool
      */
     size_t get_number_workers() const;
 
+    /**
+     * @brief Submit work to the threadpool. This function takes a function and its arguments and returns a future that
+     * will contain the return value of the function. This can be used to wait for the threadpool to run the task.
+     *
+     * @tparam F function type.
+     * @tparam Args args type.
+     * @param f function to execute.
+     * @param args argument to pass to the function.
+     * @return std::future<typename std::result_of<F(Args...)>::type> future that will contain the result of the
+     * function.
+     */
     template <class F, class... Args>
     auto submit(F &&f, Args &&...args) -> std::future<typename std::result_of<F(Args...)>::type>
     {
