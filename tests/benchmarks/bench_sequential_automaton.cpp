@@ -3,14 +3,13 @@
 #include <cellular_automata.hpp>
 #include <iostream>
 
-static void BM_GridCreationAndDeletionInt(benchmark::State &state)
+static void BM_GridCreationAndDeletionUInt(benchmark::State &state)
 {
     size_t n = state.range(0);
     for (auto _ : state)
     {
         // this code gets timed
-        auto grid = ca::utils::newGrid<int>(n, n, 0);
-        ca::utils::deleteGrid<int>(grid, n);
+        auto grid = ca::Grid<int>(n, n);
     }
 }
 
@@ -20,8 +19,7 @@ static void BM_GridCreationAndDeletionUInt8(benchmark::State &state)
     for (auto _ : state)
     {
         // this code gets timed
-        auto grid = ca::utils::newGrid<uint8_t>(n, n, 0);
-        ca::utils::deleteGrid<uint8_t>(grid, n);
+        auto grid = ca::Grid<uint8_t>(n, n);
     }
 }
 
@@ -30,14 +28,13 @@ static void BM_SimulationStep(benchmark::State &state)
     size_t nrows = state.range(0);
     size_t ncols = nrows;
     auto nsteps = state.range(1);
-    auto grid = ca::utils::newGrid<int>(nrows, ncols, 0);
+    auto grid = ca::Grid<int>(nrows, ncols);
     auto update_fn = conways_game_of_life_update_function<int>;
-    auto cellaut = ca::seq::CellularAutomaton<int>(grid, nrows, ncols, update_fn);
+    auto cellaut = ca::seq::CellularAutomaton<int>(grid, update_fn);
     for (auto _ : state)
     {
         cellaut.simulate(nsteps);
     }
-    ca::utils::deleteGrid<int>(grid, nrows);
 }
 
 static void BM_UpdateFunction(benchmark::State &state)
@@ -52,7 +49,7 @@ static void BM_UpdateFunction(benchmark::State &state)
     }
 }
 
-BENCHMARK(BM_GridCreationAndDeletionInt)->Arg(1e1)->Arg(1e2)->Arg(1e3)->Arg(1e4)->Arg(2 * 1e4);
+BENCHMARK(BM_GridCreationAndDeletionUInt)->Arg(1e1)->Arg(1e2)->Arg(1e3)->Arg(1e4)->Arg(2 * 1e4);
 
 BENCHMARK(BM_GridCreationAndDeletionUInt8)->Arg(1e1)->Arg(1e2)->Arg(1e3)->Arg(1e4)->Arg(2 * 1e4);
 
