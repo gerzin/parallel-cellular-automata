@@ -14,7 +14,9 @@
  * THREAD JOINER
  */
 
-ThreadJoiner::ThreadJoiner(std::vector<std::thread> &t) : threads(t){};
+ThreadJoiner::ThreadJoiner(std::vector<std::thread> &t) : threads(t)
+{
+}
 
 ThreadJoiner::~ThreadJoiner()
 {
