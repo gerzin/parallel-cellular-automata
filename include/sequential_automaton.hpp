@@ -16,7 +16,6 @@
 #include "cellular_automata.hpp"
 #endif
 #include "grid.hpp"
-#include "utils.hpp"
 
 namespace ca
 {

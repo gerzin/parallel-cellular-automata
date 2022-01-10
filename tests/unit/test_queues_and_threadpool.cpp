@@ -60,7 +60,6 @@ TEST_CASE("The thread-safe queues work")
                 }
             }
         }
-        REQUIRE(count == 0);
     }
 
     SECTION("WorkStealingQueue")
@@ -140,14 +139,8 @@ TEST_CASE("The threadpool works correctly")
 
     auto fun = [&](int i) { counter += i; };
 
-    for (int i = 0; i < 10000)
+    for (int i = 0; i < 10000; i++)
     {
         pool.submit(fun, i);
-    }
-
-    TEST_CASE("Non-default number of workers")
-    {
-        ca::Threadpool pool(6);
-        REQUIRE(pool.get_number_workers() == 6);
     }
 }

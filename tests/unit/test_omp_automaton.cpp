@@ -6,29 +6,23 @@
 // clang-format on
 #include "../../include/cellular_automata.hpp"
 
-TEST_CASE("The sequential cellular automaton is created.")
+TEST_CASE("The omp cellular automaton is created.")
 {
     const auto rows = 5;
     const auto columns = 5;
-    auto grid = std::make_unique<int *[]>(rows);
-
-    for (auto i = 0; i < rows; ++i)
+    auto grid = ca::Grid<int>(rows, columns);
+    for (size_t i = 0; i < static_cast<int>(rows); ++i)
     {
-        grid[i] = new int[columns];
-    }
-
-    for (size_t i = 0; i < rows; ++i)
-    {
-        for (size_t j = 0; j < columns; ++j)
+        for (size_t j = 0; j < static_cast<int>(columns); ++j)
         {
-            grid[i][j] = i + j;
+            grid(i, j) = i + j;
         }
     }
 
     auto update_fn = [](int c, int tl, int t, int tr, int l, int r, int bl, int b, int br) -> int {
         return c + tl + t + tr + l + r + bl + b + br + 1;
     };
-    auto automaton = ca::omp::CellularAutomaton<int>(grid.get(), rows, columns, update_fn);
+    auto automaton = ca::omp::CellularAutomaton<int>(grid, update_fn, 8);
     std::cout << automaton << std::endl;
 
     automaton.simulate(0);

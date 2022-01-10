@@ -16,7 +16,6 @@
 #ifndef PARALLEL_CELLULAR_AUTOMATA_CELLULAR_AUTOMATA_HPP
 #include "cellular_automata.hpp"
 #endif
-#include "utils.hpp"
 #include <barrier.hpp>
 #include <grid.hpp>
 #include <stdexcept>

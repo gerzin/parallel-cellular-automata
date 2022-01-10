@@ -66,7 +66,7 @@ TEST_CASE("The Barrier works correctly") {
                 ++counter;
             }
             sync_point.wait([](){
-                std::cout << "I'm the last thread" << std::endl;
+                std::cout << "I'm the last thread to reach the barrier! (You should see this message exactly one time)" << std::endl;
             });
         };
 

@@ -19,29 +19,31 @@ TEST_CASE("The neighborhood is computed correctly.")
     const size_t rows = 4;
     const size_t columns = 5;
 
-    /* Grid structure
-     *
-     * 0 -2  0  0  -1
-     * 0  1  2  3  -2
-     * 0  4  0  5   0
-     * 9  6  7  8   0
-     */
+    ca::Grid<int> grid(rows, columns);
 
-    const int grid[rows][columns] = {{0, -2, 0, 0, -1}, {0, 1, 2, 3, -2}, {0, 4, 0, 5, 0}, {9, 6, 7, 8, 0}};
+    const int grid_[rows][columns] = {{0, -2, 0, 0, -1}, {0, 1, 2, 3, -2}, {0, 4, 0, 5, 0}, {9, 6, 7, 8, 0}};
+
+    for (size_t i = 0; i < static_cast<int>(rows); ++i)
+    {
+        for (size_t j = 0; j < static_cast<int>(columns); ++j)
+        {
+            grid(i, j) = grid_[i][j];
+        }
+    }
 
     // the code in this lambda is an exact copy of the code from the get_neighborhood
     // function in the CellularAutomaton class, where T has been instantiated with an int.
     auto get_neighborhood = [&grid](int row, int col) -> auto
     {
         int top_left, top, top_right, left, right, bottom_left, bottom, bottom_right;
-        top_left = grid[(row - 1 + rows) % rows][(col - 1 + columns) % columns];
-        top = grid[(row - 1 + rows) % rows][col];
-        top_right = grid[(row - 1 + rows) % rows][(col + 1) % columns];
-        left = grid[row][(col - 1 + columns) % columns];
-        right = grid[row][(col + 1) % columns];
-        bottom_left = grid[(row + 1) % rows][(col - 1 + columns) % columns];
-        bottom = grid[(row + 1) % rows][col];
-        bottom_right = grid[(row + 1) % rows][(col + 1) % columns];
+        top_left = grid((row - 1 + rows) % rows, (col - 1 + columns) % columns);
+        top = grid((row - 1 + rows) % rows, col);
+        top_right = grid((row - 1 + rows) % rows, (col + 1) % columns);
+        left = grid(row, (col - 1 + columns) % columns);
+        right = grid(row, (col + 1) % columns);
+        bottom_left = grid((row + 1) % rows, (col - 1 + columns) % columns);
+        bottom = grid((row + 1) % rows, col);
+        bottom_right = grid((row + 1) % rows, (col + 1) % columns);
         return std::make_tuple(top_left, top, top_right, left, right, bottom_left, bottom, bottom_right);
     };
 
@@ -76,25 +78,19 @@ TEST_CASE("The sequential cellular automaton is created.")
 {
     const auto rows = 5;
     const auto columns = 5;
-    auto grid = std::make_unique<int *[]>(rows);
-
-    for (auto i = 0; i < rows; ++i)
+    auto grid = ca::Grid<int>(rows, columns);
+    for (size_t i = 0; i < static_cast<int>(rows); ++i)
     {
-        grid[i] = new int[columns];
-    }
-    
-    for (size_t i = 0; i < rows; ++i)
-    {
-        for (size_t j = 0; j < columns; ++j)
+        for (size_t j = 0; j < static_cast<int>(columns); ++j)
         {
-            grid[i][j] = i + j;
+            grid(i, j) = i + j;
         }
     }
 
     auto update_fn = [](int c, int tl, int t, int tr, int l, int r, int bl, int b, int br) -> int {
         return c + tl + t + tr + l + r + bl + b + br + 1;
     };
-    auto automaton = ca::seq::CellularAutomaton<int>(grid.get(), rows, columns, update_fn);
+    auto automaton = ca::seq::CellularAutomaton<int>(grid, update_fn);
     std::cout << automaton << std::endl;
 
     automaton.simulate(0);

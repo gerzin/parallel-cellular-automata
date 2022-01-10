@@ -45,19 +45,16 @@ else()
 endif()
 
 set(unit_test_targets
-    test_sequential_all
-    test_operators
+    test_all
     test_library_imports
     test_sequential_automaton
-    test_utilities
-    test_sequential_leaks_valgrind
     test_omp_automaton
     test_barrier
     test_queues_and_threadpool
-    test_threadpool
     test_parallel_automaton
     test_grid
-    test_utils
+    test_ff_automaton
+    test_same_computation
 )
 
 foreach(TARGET ${unit_test_targets})

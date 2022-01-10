@@ -6,8 +6,8 @@
 #include "sequential_automaton.hpp"
 #include "parallel_automaton.hpp"
 #include "omp_automaton.hpp"
+#include "ff_automaton.hpp"
 // clang-format on
-#include "utils.hpp"
 
 /**
  * @brief Namespace of the framework.
