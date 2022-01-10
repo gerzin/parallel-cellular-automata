@@ -15,6 +15,7 @@
 #ifndef PARALLEL_CELLULAR_AUTOMATA_CELLULAR_AUTOMATA_HPP
 #include "cellular_automata.hpp"
 #endif
+#include "grid.hpp"
 #include "utils.hpp"
 
 namespace ca
@@ -41,14 +42,12 @@ class CellularAutomaton
      * @brief Construct a new Cellular Automaton object.
      *
      * @param grid Grid of the simulation.
-     * @param rows Number of rows of the grid.
-     * @param columns Number of columns of the grid.
      * @param update_function Function used to update the state of the grid.
      *
      */
-    CellularAutomaton(T **grid, const size_t rows, const size_t columns,
-                      std::function<T(T, T, T, T, T, T, T, T, T)> update_function)
-        : grid{grid}, rows{rows}, columns{columns}, generation(0), update_function(update_function){};
+    CellularAutomaton(Grid<T> &grid, std::function<T(T, T, T, T, T, T, T, T, T)> update_function)
+        : grid{grid}, generation(0), update_function(update_function){};
+
     /**
      * @brief Construct a new Cellular Automaton object from another one using move semantic.
      * @note The old object will be left in a valid but unspecified state.
@@ -59,15 +58,7 @@ class CellularAutomaton
     {
         // move what's movable and copying numeric types.
         grid = std::move(other.grid);
-        rows = other.rows;
-        columns = other.columns;
-        generation = other.generation;
-        update_function = other.update_function;
-        // set the old object in a valid state
-        other.grid = nullptr;
-        other.columns = 0;
-        other.rows = 0;
-        other.generation = 0;
+        update_function = std::move(other.update_function);
     }
 
     /**
@@ -91,27 +82,25 @@ class CellularAutomaton
         if (steps == 0)
             return;
         // allocate new grid
-        T **new_grid = ca::utils::newGrid<T>(rows, columns);
+        auto new_grid = ca::Grid<int>::newWithSameSize(grid);
 
         // compute state and put values on the new grid.
         while (steps > 0)
         {
-            for (size_t r{0}; r < rows; ++r)
+            for (size_t r{0}; r < grid.rows(); ++r)
             {
-                for (size_t c{0}; c < columns; ++c)
+                for (size_t c{0}; c < grid.columns(); ++c)
                 {
-                    auto cell = std::make_tuple(grid[r][c]);
-                    new_grid[r][c] = std::apply(update_function, std::tuple_cat(cell, get_neighborhood(r, c)));
+                    auto cell = std::make_tuple(grid(r, c));
+                    new_grid(r, c) = std::apply(update_function, std::tuple_cat(cell, get_neighborhood(r, c)));
                 }
             }
             // swap grids so grid contains the final value.
-            std::swap(grid, new_grid);
+            grid.swap(new_grid);
 
             ++generation;
             --steps;
         }
-        // free the memory of the new grid
-        ca::utils::deleteGrid(new_grid, rows);
     }
 
     /**
@@ -134,17 +123,8 @@ class CellularAutomaton
      */
     friend std::ostream &operator<<(std::ostream &os, const CellularAutomaton &ca)
     {
-        for (size_t i = 0; i < ca.rows; ++i)
-        {
-            for (size_t j = 0; j < ca.columns; ++j)
-            {
-                os << ca.grid[i][j] << " ";
-            }
 
-            os << std::endl;
-        }
-
-        return os;
+        return os << ca.grid;
     }
 
   protected:
@@ -152,19 +132,7 @@ class CellularAutomaton
      * @brief Grid of the C.A.
      *
      */
-    T **grid;
-
-    /**
-     * @brief Number of rows of the grid.
-     *
-     */
-    const size_t rows;
-
-    /**
-     * @brief Number of columns of the grid.
-     *
-     */
-    const size_t columns;
+    Grid<T> &grid;
 
     /**
      * @brief Current generation of the grid.
@@ -201,16 +169,19 @@ class CellularAutomaton
      *
      */
     virtual std::tuple<T, T, T, T, T, T, T, T> get_neighborhood(int row, int col) const
+
     {
+        unsigned rows = grid.rows();
+        unsigned columns = grid.columns();
         T top_left, top, top_right, left, right, bottom_left, bottom, bottom_right;
-        top_left = grid[(row - 1 + rows) % rows][(col - 1 + columns) % columns];
-        top = grid[(row - 1 + rows) % rows][col];
-        top_right = grid[(row - 1 + rows) % rows][(col + 1) % columns];
-        left = grid[row][(col - 1 + columns) % columns];
-        right = grid[row][(col + 1) % columns];
-        bottom_left = grid[(row + 1) % rows][(col - 1 + columns) % columns];
-        bottom = grid[(row + 1) % rows][col];
-        bottom_right = grid[(row + 1) % rows][(col + 1) % columns];
+        top_left = grid((row - 1 + rows) % rows, (col - 1 + columns) % columns);
+        top = grid((row - 1 + rows) % rows, col);
+        top_right = grid((row - 1 + rows) % rows, (col + 1) % columns);
+        left = grid(row, (col - 1 + columns) % columns);
+        right = grid(row, (col + 1) % columns);
+        bottom_left = grid((row + 1) % rows, (col - 1 + columns) % columns);
+        bottom = grid((row + 1) % rows, col);
+        bottom_right = grid((row + 1) % rows, (col + 1) % columns);
         return std::make_tuple(top_left, top, top_right, left, right, bottom_left, bottom, bottom_right);
     };
 };

@@ -2,6 +2,7 @@
 #define PARALLEL_CELLULAR_AUTOMATA_CELLULAR_AUTOMATA_HPP
 #include <iostream>
 // clang-format off
+#include "grid.hpp"
 #include "sequential_automaton.hpp"
 #include "parallel_automaton.hpp"
 #include "omp_automaton.hpp"
