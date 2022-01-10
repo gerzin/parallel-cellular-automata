@@ -37,6 +37,6 @@ else()
     endif()
 endif()
 
-add_library(parallelcellularautomata STATIC include/utimer.hpp src/utimer.cpp include/grid.hpp include/cellular_automata.hpp include/sequential_automaton.hpp include/omp_automaton.hpp include/parallel_automaton.hpp include/barrier.hpp src/barrier.cpp include/queues.hpp include/threadpool.hpp src/threadpool.cpp)
+add_library(parallelcellularautomata STATIC include/utimer.hpp src/utimer.cpp include/grid.hpp include/cellular_automata.hpp include/sequential_automaton.hpp include/omp_automaton.hpp include/parallel_automaton.hpp include/ff_automaton.hpp include/barrier.hpp src/barrier.cpp include/queues.hpp include/threadpool.hpp src/threadpool.cpp)
 target_include_directories(parallelcellularautomata PUBLIC include)
 

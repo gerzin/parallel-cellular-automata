@@ -44,23 +44,11 @@ else()
 
 endif()
 
-set(unit_test_targets
-    test_sequential_all
-    test_operators
-    test_library_imports
-    test_sequential_automaton
-    test_utilities
-    test_sequential_leaks_valgrind
-    test_omp_automaton
-    test_barrier
-    test_queues_and_threadpool
-    test_threadpool
-    test_parallel_automaton
-    test_grid
-    test_utils
+set(profiler_targets
+    parallel
 )
 
-foreach(TARGET ${unit_test_targets})
+foreach(TARGET ${profiler_targets})
     add_executable(${TARGET} ${TARGET}.cpp)
     target_link_libraries(${TARGET} parallelcellularautomata)
 endforeach()
