@@ -25,7 +25,7 @@ namespace ca
  * @brief Namespace containing the implementation of the parallel version of the cellular automaton using fastflow.
  *
  */
-namespace ff
+namespace ffl
 {
 template <typename T>
 class CellularAutomaton
@@ -90,13 +90,13 @@ class CellularAutomaton
 
         while (steps > 0)
         {
-            pf.parallelFor(
+            pf.ParallelFor(
                 0, grid.rows(),
                 [&](const long i) {
-                    for (j = 0; j < grid.columns(); ++j)
+                    for (size_t j = 0; j < grid.columns(); ++j)
                     {
-                        auto cell = std::make_tuple(grid(r, c));
-                        new_grid(r, c) = std::apply(update_function, std::tuple_cat(cell, get_neighborhood(r, c)));
+                        auto cell = std::make_tuple(grid(i, j));
+                        new_grid(i, j) = std::apply(update_function, std::tuple_cat(cell, get_neighborhood(i, j)));
                     }
                 },
                 nw);
@@ -197,7 +197,7 @@ class CellularAutomaton
      */
     ff::ParallelFor pf;
 };
-} // namespace ff
+} // namespace ffl
 } // namespace ca
 
 #endif
