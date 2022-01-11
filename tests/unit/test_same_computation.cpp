@@ -14,7 +14,7 @@ TEST_CASE("All the C.A. compute the same result")
     auto g3 = ca::Grid<int>(10, 10);
     auto g4 = ca::Grid<int>(10, 10);
 
-    for (int i = 0; i < std::min(g1.rows(), g1.columns()); ++i)
+    for (int i = 0; i < static_cast<int>(std::min(g1.rows(), g1.columns())); ++i)
     {
         g1(i, i) = i;
         g2(i, i) = i;

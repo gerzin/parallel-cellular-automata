@@ -31,7 +31,6 @@ TEST_CASE("The parallel cellular automaton is created.")
         return c + tl + t + tr + l + r + bl + b + br + 1;
     };
     auto automaton = ca::par::CellularAutomaton<int>(grid, update_fn, 4);
-    std::cout << automaton << std::endl;
 
     automaton.simulate(0);
     automaton.simulate(1);
