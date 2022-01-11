@@ -79,7 +79,7 @@
  *       mapping of threads. 
  */
 #if !defined MAPPING_STRING
-#define FF_MAPPING_STRING ""
+#define FF_MAPPING_STRING "0,2,4,6,8,10,12,14,1,3,5,7,9,11,13,15"
 #else
 #define FF_MAPPING_STRING MAPPING_STRING
 #endif
@@ -89,7 +89,7 @@
  *       (which is a costly function).
  */
 #if !defined NUM_CORES
-#define FF_NUM_CORES -1
+#define FF_NUM_CORES 16
 #else
 #define FF_NUM_CORES NUM_CORES
 #endif
@@ -99,7 +99,7 @@
  *       ff_realNumCores() (which is a costly function)
  */
 #if !defined NUM_REAL_CORES
-#define FF_NUM_REAL_CORES -1
+#define FF_NUM_REAL_CORES 8
 #else
 #define FF_NUM_REAL_CORES NUM_REAL_CORES
 #endif
