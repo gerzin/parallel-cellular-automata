@@ -30,9 +30,12 @@ if (MSVC)
     endif()
 else()
     # lots of warnings and all warnings as errors
-    add_compile_options(-Wall -Wextra -pedantic -Werror -std=c++17)
+    add_compile_options(-Wall -Wextra -pedantic -std=c++17)  # had to remove -Werror due to fastflow which has a few unused parameters
     if (NOT CMAKE_CXX_COMPILER_ID MATCHES "GNU")
         add_compile_options(-Wno-error=unused-command-line-argument)
+        
+
+
     endif()
     # optimizations and debug informations
     add_compile_options(-g -O3 -lpthread)

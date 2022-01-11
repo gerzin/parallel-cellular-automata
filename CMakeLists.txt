@@ -28,6 +28,7 @@ else()
     add_compile_options(-Wall -Wextra -pedantic -Werror)
     if (NOT CMAKE_CXX_COMPILER_ID MATCHES "GNU")
         add_compile_options(-Wno-error=unused-command-line-argument)
+
     endif()
     add_compile_options(-g -O3)
     # if the compiler supports OpenMP, use the right flags

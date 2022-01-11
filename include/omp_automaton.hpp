@@ -135,7 +135,7 @@ class CellularAutomaton
      * @brief Grid of the C.A.
      *
      */
-    Grid<T> grid;
+    Grid<T> &grid;
 
     /**
      * @brief Current generation of the grid.

@@ -90,7 +90,7 @@ class CellularAutomaton
 
         while (steps > 0)
         {
-            pf.ParallelFor(
+            pf.parallel_for(
                 0, grid.rows(),
                 [&](const long i) {
                     for (size_t j = 0; j < grid.columns(); ++j)
