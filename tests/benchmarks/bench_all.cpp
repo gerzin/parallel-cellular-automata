@@ -61,12 +61,15 @@ static void BM_SimulationStepOMP(benchmark::State &state)
         cellaut.simulate(nsteps);
     }
 }
-/*
+
 BENCHMARK(BM_SimulationStepSequential)->Arg(1e2)->Arg(1e3)->Arg(1e4);
+
 BENCHMARK(BM_SimulationStepParallel)->Arg(1e2)->Arg(1e3)->Arg(1e4);
+
 BENCHMARK(BM_SimulationStepFF)->Arg(1e2)->Arg(1e3)->Arg(1e4);
+
 BENCHMARK(BM_SimulationStepOMP)->Arg(1e2)->Arg(1e3)->Arg(1e4);
-*/
+
 // run 10 iterations on a medium sized grid varying the number of workers
 
 static void BM_VaryingWorkersGrid1000Parallel(benchmark::State &state)
@@ -120,6 +123,13 @@ BENCHMARK(BM_VaryingWorkersGrid1000FF)->DenseRange(0, 15, 1);
 
 BENCHMARK(BM_VaryingWorkersGrid1000OMP)->DenseRange(0, 15, 1);
 
-//
+BENCHMARK(BM_VaryingWorkersGrid1000Parallel)
+    ->DenseRange(std::thread::hardware_concurrency() - 1, std::thread::hardware_concurrency() + 3, 1);
+
+BENCHMARK(BM_VaryingWorkersGrid1000FF)
+    ->DenseRange(std::thread::hardware_concurrency() - 1, std::thread::hardware_concurrency() + 3, 1);
+
+BENCHMARK(BM_VaryingWorkersGrid1000OMP)
+    ->DenseRange(std::thread::hardware_concurrency() - 1, std::thread::hardware_concurrency() + 3, 1);
 
 BENCHMARK_MAIN();
