@@ -20,7 +20,8 @@ echo "Compiling the benchmarks"
 cmake ..
 make
 
-BENCHMARKS=$(ls | grep bench)
+#BENCHMARKS=$(ls | grep bench)
+BENCHMARKS=$(ls | grep bench_all)
 
 for item in $BENCHMARKS; do
     ./$item --benchmark_out_format=json --benchmark_out=../outputs/$item.$USERNAME.$HOSTNAME.json
