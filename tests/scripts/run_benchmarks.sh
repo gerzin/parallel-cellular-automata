@@ -18,7 +18,7 @@ else
 fi
 echo "Compiling the benchmarks"
 cmake ..
-make
+make -j
 
 #BENCHMARKS=$(ls | grep bench)
 BENCHMARKS=$(ls | grep bench_all)
