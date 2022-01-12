@@ -43,7 +43,8 @@ class CellularAutomaton
      */
     CellularAutomaton(ca::Grid<T> &grid, std::function<T(T, T, T, T, T, T, T, T, T)> update_function,
                       unsigned workers = 0)
-        : grid(grid), generation(0), update_function(update_function), pf()
+        : grid(grid), generation(0), update_function(update_function),
+          pf((workers) ? workers : std::thread::hardware_concurrency())
     {
 
         this->nw = (workers) ? workers : std::thread::hardware_concurrency();
