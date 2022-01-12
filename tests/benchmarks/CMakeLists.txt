@@ -33,7 +33,9 @@ if (MSVC)
     endif()
 else()
     # lots of warnings and all warnings as errors
-    add_compile_options(-Wall -Wextra -pedantic -Werror)
+    #add_compile_options(-Wall -Wextra -pedantic -Werror)
+    add_compile_options(-Wall -Wextra -pedantic) # remove -Werror due to fastflow warnings
+
     if (NOT CMAKE_CXX_COMPILER_ID MATCHES "GNU")
         add_compile_options(-Wno-error=unused-command-line-argument)
     endif()
