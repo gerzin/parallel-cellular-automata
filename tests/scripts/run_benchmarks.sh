@@ -25,4 +25,5 @@ BENCHMARKS=$(ls | grep bench_all)
 
 for item in $BENCHMARKS; do
     ./$item --benchmark_out_format=json --benchmark_out=../outputs/$item.$USERNAME.$HOSTNAME.json
+    echo "benchmark written in ../outputs/$item.$USERNAME.$HOSTNAME.json"
 done

@@ -48,3 +48,6 @@ doc/
 # google/benchmark folder
 tests/ext/benchmark/
 tests/ext/benchmark
+
+# folder with jupyter notebooks for the plots
+tests/benchmarks/outputs/Notebooks
