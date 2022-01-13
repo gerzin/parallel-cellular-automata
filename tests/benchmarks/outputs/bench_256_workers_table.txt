@@ -1,0 +1,38 @@
+Run on (256 X 1500 MHz CPU s)
+CPU Caches:
+  L1 Data 32 KiB (x64)
+  L1 Instruction 32 KiB (x64)
+  L2 Unified 1024 KiB (x32)
+Load Average: 0.92, 0.41, 0.33
+***WARNING*** CPU scaling is enabled, the benchmark real time measurements may be noisy and will incur extra overhead.
+--------------------------------------------------------------------------------
+Benchmark                                      Time             CPU   Iterations
+--------------------------------------------------------------------------------
+BM_VaryingWorkersGrid1000Parallel/1   1154002462 ns       809461 ns           10
+BM_VaryingWorkersGrid1000Parallel/2    580486764 ns       850973 ns           10
+BM_VaryingWorkersGrid1000Parallel/4    306773388 ns       831920 ns           10
+BM_VaryingWorkersGrid1000Parallel/8    154873156 ns       681112 ns          100
+BM_VaryingWorkersGrid1000Parallel/16    86863532 ns      1017653 ns          100
+BM_VaryingWorkersGrid1000Parallel/32    49893950 ns      1789475 ns          100
+BM_VaryingWorkersGrid1000Parallel/64    76090909 ns      5473180 ns          126
+BM_VaryingWorkersGrid1000Parallel/128  168756799 ns     23037912 ns           30
+BM_VaryingWorkersGrid1000Parallel/256  494761769 ns    134713924 ns            6
+BM_VaryingWorkersGrid1000FF/1         1247457568 ns   1248147180 ns            1
+BM_VaryingWorkersGrid1000FF/2          651524669 ns      1168202 ns           10
+BM_VaryingWorkersGrid1000FF/4          327984565 ns      1635797 ns           10
+BM_VaryingWorkersGrid1000FF/8          163980966 ns      1476073 ns          100
+BM_VaryingWorkersGrid1000FF/16          84262318 ns      2282615 ns          100
+BM_VaryingWorkersGrid1000FF/32          84834400 ns      3422344 ns          100
+BM_VaryingWorkersGrid1000FF/64          85803569 ns      5314668 ns          107
+BM_VaryingWorkersGrid1000FF/128         87631423 ns      8868839 ns           88
+BM_VaryingWorkersGrid1000FF/256         91163876 ns     16420632 ns           41
+BM_VaryingWorkersGrid1000OMP/1        1313657966 ns   1314339104 ns            1
+BM_VaryingWorkersGrid1000OMP/2         691159312 ns    691536929 ns            1
+BM_VaryingWorkersGrid1000OMP/4         345708555 ns    345899593 ns            2
+BM_VaryingWorkersGrid1000OMP/8         172975301 ns    173075431 ns            4
+BM_VaryingWorkersGrid1000OMP/16         89218415 ns     89255239 ns            8
+BM_VaryingWorkersGrid1000OMP/32         48502871 ns     48530110 ns           14
+BM_VaryingWorkersGrid1000OMP/64         40591134 ns     40614281 ns           16
+BM_VaryingWorkersGrid1000OMP/128        31328892 ns     31347074 ns           22
+BM_VaryingWorkersGrid1000OMP/256        19369720 ns     19380652 ns           41
+
