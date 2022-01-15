@@ -18,3 +18,22 @@ BM_SimulationStepBW/10000         1722672755 ns    116575616 ns            6
 BM_SimulationStepBW4Threads/100       548340 ns        15120 ns        10000
 BM_SimulationStepBW4Threads/1000    53091783 ns       433409 ns          100
 BM_SimulationStepBW4Threads/10000 5366231189 ns     92953736 ns            1
+
+CPU Caches:
+  L1 Data 32 KiB (x64)
+  L1 Instruction 32 KiB (x64)
+  L2 Unified 1024 KiB (x32)
+Load Average: 0.19, 0.14, 1.14
+***WARNING*** CPU scaling is enabled, the benchmark real time measurements may be noisy and will incur extra overhead.
+----------------------------------------------------------------------------
+Benchmark                                  Time             CPU   Iterations
+----------------------------------------------------------------------------
+BM_SimulationStep/100              262423099 ns    105071886 ns            8
+BM_SimulationStep/1000             455882839 ns    111030885 ns            7
+BM_SimulationStep/10000           2194972331 ns    446252521 ns            2
+BM_SimulationStepBW/100            359810691 ns    251826193 ns            2
+BM_SimulationStepBW/1000           381271465 ns    270864252 ns            2
+BM_SimulationStepBW/10000         2524156608 ns    425551299 ns            2
+BM_SimulationStepBW4Threads/100      3530986 ns       103983 ns         1000
+BM_SimulationStepBW4Threads/1000   340922545 ns       866006 ns           10
+BM_SimulationStepBW4Threads/10000 34037015542 ns    130952850 ns            1
