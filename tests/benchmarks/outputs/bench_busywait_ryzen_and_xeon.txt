@@ -19,6 +19,7 @@ BM_SimulationStepBW4Threads/100       548340 ns        15120 ns        10000
 BM_SimulationStepBW4Threads/1000    53091783 ns       433409 ns          100
 BM_SimulationStepBW4Threads/10000 5366231189 ns     92953736 ns            1
 
+Run on (256 X 1500 MHz CPU s)
 CPU Caches:
   L1 Data 32 KiB (x64)
   L1 Instruction 32 KiB (x64)
