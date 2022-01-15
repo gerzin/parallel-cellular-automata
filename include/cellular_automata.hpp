@@ -5,6 +5,7 @@
 #include "grid.hpp"
 #include "sequential_automaton.hpp"
 #include "parallel_automaton.hpp"
+#include "parallel_automaton_busyw.hpp"
 #include "omp_automaton.hpp"
 #include "ff_automaton.hpp"
 // clang-format on

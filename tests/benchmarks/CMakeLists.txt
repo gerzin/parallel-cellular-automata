@@ -54,6 +54,7 @@ set(
     bench_sequential_automaton
     bench_omp_automaton
     bench_parallel_automaton
+    bench_parallel_automaton_busywait
     bench_all
 )
 
