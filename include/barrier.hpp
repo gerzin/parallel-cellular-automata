@@ -11,10 +11,10 @@
 #ifndef PARALLEL_CELLULAR_AUTOMATA_BARRIER_HPP
 #define PARALLEL_CELLULAR_AUTOMATA_BARRIER_HPP
 #include <condition_variable>
+#include <functional>
 #include <mutex>
 #include <thread>
 #include <vector>
-#include <functional>
 
 namespace ca
 {
@@ -54,11 +54,26 @@ class Barrier
      */
     void wait();
     /**
-     * @brief wait for the other treads to reach the barrier and exec fun bebore notyfying others if you are the last thread to reach it.
-     * 
+     * @brief wait for the other treads to reach the barrier and exec fun bebore notyfying others if you are the last
+     * thread to reach it.
+     *
      * @param fun function that the last thread to reach the barrier will execute before notifying.
      */
     void wait(std::function<void()> fun);
+
+    /**
+     * @brief busy wait for other threads to reach the barrier.
+     *
+     */
+    void busy_wait();
+
+    /**
+     * @brief busy wait for the other treads to reach the barrier and exec fun bebore notyfying others if you are the
+     * last thread to reach it.
+     *
+     * @param fun function that the last thread to reach the barrier will execute before notifying.
+     */
+    void busy_wait(std::function<void()> fun);
 };
 } // namespace ca
 #endif
