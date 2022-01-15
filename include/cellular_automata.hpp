@@ -1,3 +1,13 @@
+/**
+ * @file cellular_automata.hpp
+ * @author Gerardo Zinno (gerardozinno1@gmail.com)
+ * @brief This header imports all the other headers of the framework.
+ * @version 0.1
+ * @date 2022-01-15
+ *
+ * @copyright Copyright (c) 2022
+ *
+ */
 #ifndef PARALLEL_CELLULAR_AUTOMATA_CELLULAR_AUTOMATA_HPP
 #define PARALLEL_CELLULAR_AUTOMATA_CELLULAR_AUTOMATA_HPP
 #include <iostream>

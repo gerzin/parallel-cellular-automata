@@ -1,13 +1,12 @@
 /**
- * @file parallel_automaton.hpp
- * @author gerardo zinno (gerardozinno1@gmail.com)
- * @brief This file contains the definition and implementation of the parallel version of the Cellular Automaton.
- *
- *        This version is parallelized using standard c++
+ * @file parallel_automaton_busyw.hpp
+ * @author Gerardo Zinno (gerardozinno1@gmail.com)
+ * @brief This file implements the parallel cellular automaton using the busy wait function of the barrier.
+ *        This implementation has shown experimentally to have worse performances therfore should not be used.
  * @version 0.1
- * @date 2021-12-12
+ * @date 2022-01-15
  *
- * @copyright Copyright (c) 2021
+ * @copyright Copyright (c) 2022
  *
  */
 #ifndef PARALLEL_CELLULAR_AUTOMATA_PARALLEL_AUTOMATON_BW_HPP
