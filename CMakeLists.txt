@@ -10,6 +10,14 @@ set(CMAKE_CXX_STANDARD 17)
 set(CMAKE_CXX_STANDARD_REQUIRED True)
 set(CMAKE_BUILD_TYPE Release)
 
+#optimizing fastflow
+execute_process(
+    COMMAND yes
+    COMMAND bash mapping_string.sh
+    WORKING_DIRECTORY ${PROJECT_SOURCE_DIR}/include/ff
+    RESULT_VARIABLE FF_MS_RES
+)
+
 find_package(OpenMP REQUIRED)
 
 
