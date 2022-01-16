@@ -2,6 +2,13 @@
 #
 # Download and compile the framework for benchmarks
 #
+echo "This script will pull, compile and move in the right place the google benchmark framework. (It may take some minutes)"
+read -p "Continue (y/n)?" choice
+case "$choice" in 
+  y|Y ) ;;
+  n|N ) exit 1;;
+  * ) echo "invalid option"; exit 1;;
+esac
 # Go into the benchmark folder
 cd ../ext || exit 1
 # Check out the library.
