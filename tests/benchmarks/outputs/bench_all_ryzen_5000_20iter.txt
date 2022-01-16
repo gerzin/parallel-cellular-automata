@@ -1,0 +1,81 @@
+Running ./bench_all
+Run on (16 X 3200 MHz CPU s)
+CPU Caches:
+  L1 Data 32 KiB (x8)
+  L1 Instruction 32 KiB (x8)
+  L2 Unified 512 KiB (x8)
+  L3 Unified 16384 KiB (x1)
+Load Average: 0.91, 0.67, 0.65
+***WARNING*** CPU scaling is enabled, the benchmark real time measurements may be noisy and will incur extra overhead.
+---------------------------------------------------------------------------------
+Benchmark                                       Time             CPU   Iterations
+---------------------------------------------------------------------------------
+BM_SimulationStepSequential/5000       3944861723 ns   3944623539 ns            1
+BM_SimulationStepParallel/5000          795143542 ns     48297947 ns            9
+BM_SimulationStepParallelBW/5000        827413652 ns     48182443 ns           13
+BM_SimulationStepFF/5000                677627639 ns     29379343 ns           10
+BM_SimulationStepOMP/5000               697285656 ns    692217944 ns            1
+BM_VaryingWorkersGrid1000Parallel/1    5184572530 ns     25094859 ns            1
+BM_VaryingWorkersGrid1000Parallel/2    4712413496 ns     24235211 ns            1
+BM_VaryingWorkersGrid1000Parallel/3    3193405480 ns     27143557 ns            1
+BM_VaryingWorkersGrid1000Parallel/4    2430798412 ns     27711709 ns           10
+BM_VaryingWorkersGrid1000Parallel/5    1969082073 ns     26728038 ns           10
+BM_VaryingWorkersGrid1000Parallel/6    1664548298 ns     27315215 ns           10
+BM_VaryingWorkersGrid1000Parallel/7    1439426002 ns     27772663 ns           10
+BM_VaryingWorkersGrid1000Parallel/8    1270971887 ns     27912077 ns           10
+BM_VaryingWorkersGrid1000Parallel/9    1143440843 ns     30077406 ns           10
+BM_VaryingWorkersGrid1000Parallel/10   1036884420 ns     28651924 ns           10
+BM_VaryingWorkersGrid1000Parallel/11    959604498 ns     28753510 ns           10
+BM_VaryingWorkersGrid1000Parallel/12    897518606 ns     29021994 ns           10
+BM_VaryingWorkersGrid1000Parallel/13    838783181 ns     30394262 ns           10
+BM_VaryingWorkersGrid1000Parallel/14    792669890 ns     29784718 ns           10
+BM_VaryingWorkersGrid1000Parallel/15    783160964 ns     30885853 ns           10
+BM_VaryingWorkersGrid1000Parallel/16    777349685 ns     52047444 ns            9
+BM_VaryingWorkersGrid1000ParallelBW/1  5124629841 ns     25579339 ns            1
+BM_VaryingWorkersGrid1000ParallelBW/2  4939485337 ns     38849693 ns            1
+BM_VaryingWorkersGrid1000ParallelBW/3  2753342773 ns     27554483 ns            1
+BM_VaryingWorkersGrid1000ParallelBW/4  2566939322 ns     25093149 ns            1
+BM_VaryingWorkersGrid1000ParallelBW/5  1819905654 ns     26667152 ns           10
+BM_VaryingWorkersGrid1000ParallelBW/6  1767511855 ns     26384325 ns           10
+BM_VaryingWorkersGrid1000ParallelBW/7  1378748109 ns     27624021 ns           10
+BM_VaryingWorkersGrid1000ParallelBW/8  1353150269 ns     27517380 ns           10
+BM_VaryingWorkersGrid1000ParallelBW/9  1191609456 ns     29354343 ns           10
+BM_VaryingWorkersGrid1000ParallelBW/10 1110084374 ns     29770532 ns           10
+BM_VaryingWorkersGrid1000ParallelBW/11 1005594788 ns     31219963 ns           10
+BM_VaryingWorkersGrid1000ParallelBW/12  954758324 ns     29890923 ns           10
+BM_VaryingWorkersGrid1000ParallelBW/13  869083804 ns     30016176 ns           10
+BM_VaryingWorkersGrid1000ParallelBW/14  848377833 ns     30224994 ns           10
+BM_VaryingWorkersGrid1000ParallelBW/15  817339919 ns     28898313 ns           10
+BM_VaryingWorkersGrid1000ParallelBW/16  815285439 ns     47246396 ns            9
+BM_VaryingWorkersGrid1000FF/1          4975653789 ns   4975336292 ns            1
+BM_VaryingWorkersGrid1000FF/2          2512699092 ns     28743628 ns            1
+BM_VaryingWorkersGrid1000FF/3          1750513117 ns     49453093 ns           10
+BM_VaryingWorkersGrid1000FF/4          1359790530 ns     40889722 ns           10
+BM_VaryingWorkersGrid1000FF/5          1110900090 ns     27923814 ns           10
+BM_VaryingWorkersGrid1000FF/6           941788891 ns     42390137 ns           10
+BM_VaryingWorkersGrid1000FF/7           835299220 ns     28440461 ns           10
+BM_VaryingWorkersGrid1000FF/8           753977313 ns     30579667 ns           10
+BM_VaryingWorkersGrid1000FF/9          1044044398 ns     27119654 ns           10
+BM_VaryingWorkersGrid1000FF/10          953740537 ns     28613142 ns           10
+BM_VaryingWorkersGrid1000FF/11          878095180 ns     26786193 ns           10
+BM_VaryingWorkersGrid1000FF/12          811576794 ns     27383579 ns           10
+BM_VaryingWorkersGrid1000FF/13          771248845 ns     27870602 ns           10
+BM_VaryingWorkersGrid1000FF/14          727392762 ns     26919527 ns           10
+BM_VaryingWorkersGrid1000FF/15          693358986 ns     27122001 ns           10
+BM_VaryingWorkersGrid1000FF/16          682779249 ns     32968947 ns           10
+BM_VaryingWorkersGrid1000OMP/1         4859034597 ns   4858939703 ns            1
+BM_VaryingWorkersGrid1000OMP/2         2569728276 ns   2569610171 ns            1
+BM_VaryingWorkersGrid1000OMP/3         1745403273 ns   1739842715 ns            1
+BM_VaryingWorkersGrid1000OMP/4         1345864951 ns   1338000611 ns            1
+BM_VaryingWorkersGrid1000OMP/5         1104820152 ns   1098833829 ns            1
+BM_VaryingWorkersGrid1000OMP/6          976421035 ns    968148208 ns            1
+BM_VaryingWorkersGrid1000OMP/7          856877874 ns    854031578 ns            1
+BM_VaryingWorkersGrid1000OMP/8          768766359 ns    765603308 ns            1
+BM_VaryingWorkersGrid1000OMP/9         1090326717 ns   1008490210 ns            1
+BM_VaryingWorkersGrid1000OMP/10         991549183 ns    991515191 ns            1
+BM_VaryingWorkersGrid1000OMP/11         911206062 ns    911161712 ns            1
+BM_VaryingWorkersGrid1000OMP/12         844954720 ns    844929665 ns            1
+BM_VaryingWorkersGrid1000OMP/13         794684912 ns    794681837 ns            1
+BM_VaryingWorkersGrid1000OMP/14         746416601 ns    746359296 ns            1
+BM_VaryingWorkersGrid1000OMP/15         706452781 ns    705815040 ns            1
+BM_VaryingWorkersGrid1000OMP/16         670931746 ns    670893046 ns            1
