@@ -15,6 +15,7 @@ The sequential automaton is missing the parameter to set the number of threads. 
 
 #### Note on fastflow
 To optimize it run the script `mapping_string.sh` under `include/ff` (you need to have hwloc installed).
+This will be done automatically by cmake when you build the library.
 # Compilation
 to compile the library you must use CMake.
 

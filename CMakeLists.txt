@@ -16,6 +16,7 @@ execute_process(
     COMMAND bash mapping_string.sh
     WORKING_DIRECTORY ${PROJECT_SOURCE_DIR}/include/ff
     RESULT_VARIABLE FF_MS_RES
+    ERROR_QUIET
 )
 
 find_package(OpenMP REQUIRED)
