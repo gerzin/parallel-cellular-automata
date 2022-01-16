@@ -26,6 +26,8 @@ cmake -DCMAKE_BUILD_TYPE=Release ..
 make
 ```
 
+this will create a static library in the build directory. To use the framework include the files under `include` and link with the generated library (`libparallelcellularautomata.a` on linux).
+
 All the documentation is written using doxygen comments. Call `doxygen` in the main dir to generate it (this will create a `doc` folder).
 
 ## Example
