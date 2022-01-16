@@ -117,19 +117,10 @@ static void BM_VaryingWorkersGrid1000OMP(benchmark::State &state)
     }
 }
 
-BENCHMARK(BM_VaryingWorkersGrid1000Parallel)->DenseRange(0, 15, 1);
+BENCHMARK(BM_VaryingWorkersGrid1000Parallel)->DenseRange(0, 17, 1);
 
-BENCHMARK(BM_VaryingWorkersGrid1000FF)->DenseRange(0, 15, 1);
+BENCHMARK(BM_VaryingWorkersGrid1000FF)->DenseRange(0, 17, 1);
 
-BENCHMARK(BM_VaryingWorkersGrid1000OMP)->DenseRange(0, 15, 1);
-
-BENCHMARK(BM_VaryingWorkersGrid1000Parallel)
-    ->DenseRange(std::thread::hardware_concurrency() - 1, std::thread::hardware_concurrency() + 3, 1);
-
-BENCHMARK(BM_VaryingWorkersGrid1000FF)
-    ->DenseRange(std::thread::hardware_concurrency() - 1, std::thread::hardware_concurrency() + 3, 1);
-
-BENCHMARK(BM_VaryingWorkersGrid1000OMP)
-    ->DenseRange(std::thread::hardware_concurrency() - 1, std::thread::hardware_concurrency() + 3, 1);
+BENCHMARK(BM_VaryingWorkersGrid1000OMP)->DenseRange(0, 17, 1);
 
 BENCHMARK_MAIN();
