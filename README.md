@@ -41,10 +41,11 @@ int main() {
 
     // define update function with this signature
     auto update_fn = [](int c, int tl, int t, int tr, int l, int r, int bl, int b, int br) {
-        do something;
+        do_something;
     };
 
-    // if the namespace is the one of a parallel implementation you can pass the number of workers too.
+    // if the namespace is the one of a parallel implementation you can pass
+    // the number of workers too.
     ca::(seq,par,omp,ffl)::CellulatAutomaton<int> aut(grid, update_fn);
     
     // run 10 simulation steps
