@@ -2,7 +2,6 @@
  * @file parallel_automaton_busyw.hpp
  * @author Gerardo Zinno (gerardozinno1@gmail.com)
  * @brief This file implements the parallel cellular automaton using the busy wait function of the barrier.
- *        This implementation has shown experimentally to have worse performances therfore should not be used.
  * @version 0.1
  * @date 2022-01-15
  *
