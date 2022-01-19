@@ -49,7 +49,7 @@ int main() {
 
     // if the namespace is the one of a parallel implementation you can pass
     // the number of workers too.
-    ca::(seq,par,omp,ffl)::CellulatAutomaton<int> aut(grid, update_fn);
+    ca::(seq,par,omp,ffl)::CellularAutomaton<int> aut(grid, update_fn);
     
     // run 10 simulation steps
     aut.simulate(10);
