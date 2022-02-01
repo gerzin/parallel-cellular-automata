@@ -1,37 +1,46 @@
-## Welcome to GitHub Pages
+## A simple C++ framework for building fast cellular automata on a toroidal surface.
 
-You can use the [editor on GitHub](https://github.com/gerzin/parallel-cellular-automata/edit/gh-pages/index.md) to maintain and preview the content for your website in Markdown files.
+### Instructions
+To use the framework you simply need to:
+1. Create a grid and initialize it:
 
-Whenever you commit to this repository, GitHub Pages will run [Jekyll](https://jekyllrb.com/) to rebuild the pages in your site, from the content in your Markdown files.
+```
+ca::Grid<int> g(1000,1000);
+for(int i = 0; i < 1000; ++i){
+  for(int j = 0; j < 1000; j++){
+    g(i,j) = something;
+  }
+}
+```
+1. Define an update function taking the central cell as first argument and its neighbors as subsequent arguments:
 
-### Markdown
-
-Markdown is a lightweight and easy-to-use syntax for styling your writing. It includes conventions for
-
-```markdown
-Syntax highlighted code block
-
-# Header 1
-## Header 2
-### Header 3
-
-- Bulleted
-- List
-
-1. Numbered
-2. List
-
-**Bold** and _Italic_ and `Code` text
-
-[Link](url) and ![Image](src)
+```
+// tl = top_left cell, t = top cell, ...
+auto update_fn = [](int c, int tl, int t, int tr, int l, int r, int bl, int b, int br) {
+                     do_something;
+                 };
 ```
 
-For more details see [Basic writing and formatting syntax](https://docs.github.com/en/github/writing-on-github/getting-started-with-writing-and-formatting-on-github/basic-writing-and-formatting-syntax).
+1. Create one of the four available cellular automaton:
 
-### Jekyll Themes
+```
+ca::seq::CellularAutomaton<int>(g, update_fn);
+// to these four you can pass also the number of worker threads as last argument (default = hardware_concurrency)
+ca::par::CellularAutomaton<int> aut(g, update_fn);
+ca::par::bw::CellularAutomaton<int> aut(g, update_fn);
+ca::ffl::CellularAutomaton<int> aut(g, update_fn);
+ca::omp::CellularAutomaton<int> aut(g, update_fn);
+```
 
-Your Pages site will use the layout and styles from the Jekyll theme you have selected in your [repository settings](https://github.com/gerzin/parallel-cellular-automata/settings/pages). The name of this theme is saved in the Jekyll `_config.yml` configuration file.
+1. Run n simulation steps:
+```
+aut.simulate(n);
+```
 
-### Support or Contact
+1. Print the grid:
 
-Having trouble with Pages? Check out our [documentation](https://docs.github.com/categories/github-pages-basics/) or [contact support](https://support.github.com/contact) and we’ll help you sort it out.
+```
+std::cout << g << std::endl;
+```
+
+
