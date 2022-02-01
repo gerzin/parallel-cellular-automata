@@ -78,17 +78,6 @@ void ca::Threadpool::worker_thread(unsigned index)
 {
     thread_index = index;
     local_queue = workers_queues[index].get();
-    /* // comment out thread affinity
-    // try to set thread affinity
-    cpu_set_t cpuset;
-    CPU_ZERO(&cpuset);
-    CPU_SET(index, &cpuset);
-    int rc = pthread_setaffinity_np(threads[index].native_handle(), sizeof(cpu_set_t), &cpuset);
-    if (rc != 0)
-    {
-        std::cerr << "Error calling pthread_setaffinity_np: " << rc << "\n";
-    }
-    */
 
     while (!done)
     {
