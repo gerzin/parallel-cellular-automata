@@ -89,7 +89,7 @@ class Grid
      * @return Grid grid initialized with the content of the file.
      */
 
-    static Grid newFromFile(std::string filepath, bool is_binary = false)
+    static Grid newFromFile(std::string filepath)
     {
         std::ifstream f(filepath);
         if (f)
