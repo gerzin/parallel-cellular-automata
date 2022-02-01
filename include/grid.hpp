@@ -12,6 +12,7 @@
 #define PARALLEL_CELLULAR_AUTOMATA_GRID_HPP
 
 #include <exception>
+#include <fstream>
 #include <iostream>
 #include <memory>
 #include <string>
@@ -82,34 +83,62 @@ class Grid
     /**
      * @brief Load a grid from a file.
      *
+     * The file must contain the number of rows, the number of columns and then the elements of the grid.
+     *
      * @param filepath path to the file.
      * @return Grid grid initialized with the content of the file.
      */
-    /*
-        static Grid newFromFile(std::string filepath)
-        {
-            std::ifstream f(filepath);
-            if (f)
-            {
 
-                unsigned rows, columns;
-                f >> rows;
-                f >> columns;
-                std::vector<T> v;
-                v.reserve(rows * columns);
-                T value;
-                while (f >> value)
-                {
-                    v.push_back(value);
-                }
-                return Grid(std::move(v), rows, columns);
-            }
-            else
+    static Grid newFromFile(std::string filepath, bool is_binary = false)
+    {
+        std::ifstream f(filepath);
+        if (f)
+        {
+
+            unsigned rows, columns;
+            f >> rows;
+            f >> columns;
+            std::vector<T> v;
+            v.reserve(rows * columns);
+            T value;
+            while (f >> value)
             {
-                throw std::invalid_argument("Invalid filepath");
+                v.push_back(value);
+            }
+            for (auto e : v)
+            {
+                std::cout << e << " ";
+            }
+
+            return Grid(std::move(v), rows, columns);
+        }
+        else
+        {
+            throw std::invalid_argument("Invalid filepath");
+        }
+    }
+    /**
+     * @brief Writes the grid to a file.
+     *
+     * @param filepath path of the file.
+     */
+    void toFile(std::string filepath)
+    {
+        std::ofstream file(filepath);
+        if (file)
+        {
+            file << nrows << " " << ncols << std::endl;
+            for (const auto elem : grid)
+            {
+                file << elem << " ";
             }
         }
-    */
+        else
+        {
+            throw std::invalid_argument("Invalid filepath");
+        }
+    }
+
     /**
      * @brief Get the element in position row,col.
      *
@@ -215,7 +244,7 @@ class Grid
   private:
     Grid(std::vector<T> &&v, size_t rows, size_t cols) : grid(std::move(v)), nrows(rows), ncols(cols)
     {
-        if (!(v.size() && rows && cols))
+        if (!(getInnerVector().size() && rows && cols))
         {
             throw std::invalid_argument("Empty vector or invalid dimension");
         }
