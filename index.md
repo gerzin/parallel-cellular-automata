@@ -12,7 +12,7 @@ for(int i = 0; i < 1000; ++i){
   }
 }
 ```
-1. Define an update function taking the central cell as first argument and its neighbors as subsequent arguments:
+2. Define an update function taking the central cell as first argument and its neighbors as subsequent arguments:
 
 ```
 // tl = top_left cell, t = top cell, ...
@@ -21,7 +21,7 @@ auto update_fn = [](int c, int tl, int t, int tr, int l, int r, int bl, int b, i
                  };
 ```
 
-1. Create one of the four available cellular automaton:
+3. Create one of the four available cellular automaton:
 
 ```
 ca::seq::CellularAutomaton<int>(g, update_fn);
@@ -32,12 +32,13 @@ ca::ffl::CellularAutomaton<int> aut(g, update_fn);
 ca::omp::CellularAutomaton<int> aut(g, update_fn);
 ```
 
-1. Run n simulation steps:
+4. Run n simulation steps:
+
 ```
 aut.simulate(n);
 ```
 
-1. Print the grid:
+5. Print the grid:
 
 ```
 std::cout << g << std::endl;
