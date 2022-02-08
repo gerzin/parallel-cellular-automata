@@ -48,6 +48,23 @@ class Grid
     /**
      * @brief Construct a new Grid object.
      *
+     * @param grid_ vector containing the elements of the grid.
+     * @param rows number of rows of the grid.
+     * @note the number of columns will be calculated as grid_.size() / rows.
+     * @pre rows >= 1 && rows
+     * @pre rows divides grid_.size()
+     */
+    Grid(std::vector<T> grid_, size_t rows) : grid(grid_), nrows(rows), ncols(grid.size() / rows)
+    {
+        if (!rows)
+        {
+            throw std::invalid_argument("Grid cannot have 0 rows.");
+        }
+    }
+
+    /**
+     * @brief Construct a new Grid object.
+     *
      * @param other grid to copy.
      */
     Grid(const Grid &other)
