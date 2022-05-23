@@ -91,7 +91,7 @@ class Threadpool
         using return_value_type = typename std::result_of<F(Args...)>::type;
 
         /*
-         * std::bind creates a function wrapper "g" s.t. g == f(args)
+         * std::bind creates a function wrapper "g" s.t. g() == f(args)
          */
         auto task = std::make_shared<std::packaged_task<return_value_type()>>(
             std::bind(std::forward<F>(f), std::forward<Args>(args)...));
