@@ -8,7 +8,7 @@ It offers four types of automata:
     * OpenMp
     * [FastFlow](https://github.com/fastflow/fastflow) framework
 
-the framework is inside the namespace `ca` and each automaton is located in its respective nested namespace (`ca::seq` , `ca::par`, `ca::ffl`, `ca::omp`).
+the framework is inside the namespace `ca` and each automaton is located in its respective nested namespace (`ca::seq` , `ca::par`, `ca::par::bw`, `ca::ffl`, `ca::omp`).
 
 The interfaces of the automata are the same, so you can try different ones by simply replacing the namespace.
 The sequential automaton is missing the parameter to set the number of threads. If the other automata are called without passing that parameter, it will be set by default to `std::thread::hardware_concurrency`.
@@ -49,7 +49,7 @@ int main() {
 
     // if the namespace is the one of a parallel implementation you can pass
     // the number of workers too.
-    ca::(seq,par,omp,ffl)::CellularAutomaton<int> aut(grid, update_fn);
+    ca::(seq,par,par::bw,omp,ffl)::CellularAutomaton<int> aut(grid, update_fn);
     
     // run 10 simulation steps
     aut.simulate(10);
