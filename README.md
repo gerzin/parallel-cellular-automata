@@ -1,6 +1,6 @@
 # parallel-cellular-automata
 
-Framework for building Cellular Automata developed as a project for the exam of Parallel and Distrituted Systems.
+Framework for building Cellular Automata initially developed as a project for the exam of Parallel and Distrituted Systems.
 It offers four types of automata:
 * A sequential one
 * Three parallel ones, parallelized using:
