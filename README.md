@@ -13,10 +13,12 @@ the framework is inside the namespace `ca` and each automaton is located in its 
 The interfaces of the automata are the same, so you can try different ones by simply replacing the namespace.
 The sequential automaton is missing the parameter to set the number of threads. If the other automata are called without passing that parameter, it will be set by default to `std::thread::hardware_concurrency`.
 
+
 #### Note on fastflow
-To optimize it run the script `mapping_string.sh` under `include/ff` (you need to have hwloc installed).
-This will be done automatically by cmake when you build the library.
-# Compilation
+fastflow needs to be optimized for the machine it's running on. To optimize it run the script `mapping_string.sh` under `include/ff` (you need to have hwloc installed).
+> This will be done automatically by cmake when you build the library.
+
+# 🛠️ Compilation
 to compile the library you must use CMake.
 
 ```bash
@@ -30,7 +32,7 @@ this will create a static library in the build directory. To use the framework i
 
 All the documentation is written using doxygen comments. Call `doxygen` in the main dir to generate it (this will create a `doc` folder).
 
-## Example
+## Example 
 ```c++
 #include<cellular_automata.hpp>
 
@@ -58,3 +60,8 @@ int main() {
 
 }
 ```
+# ✏️ TODO
+- [ ] port it to C++20 once modules are available.
+- [ ] add support to CUDA.
+- [ ] improve the various CMakeLists.txt.
+> Contributions are **very welcome**.
