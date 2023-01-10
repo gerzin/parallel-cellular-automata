@@ -60,6 +60,9 @@ int main() {
 
 }
 ```
+# 📝 Report
+The project report with the framework's results can be found [here](https://github.com/gerzin/parallel-cellular-automata/blob/main/parallel-cellular-automata-report.pdf).
+
 # ✏️ TODO
 - [ ] port it to C++20 once modules are available.
 - [ ] add support to CUDA.
