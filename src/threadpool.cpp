@@ -82,12 +82,10 @@ void ca::Threadpool::worker_thread(unsigned index)
     while (!done)
     {
         QueuesContentType task;
-        if ((local_queue && local_queue->try_pop(task)) // try pop from local
-            || threadpool_work_queue.try_pop(task)      // try pop from threadpool pool
-            || try_stealing_work(task)                  // try to steal work from other threads
-        )
+        if ((local_queue && local_queue->try_pop(task)) //
+            || threadpool_work_queue.try_pop(task)      //
+            || try_stealing_work(task))                 // try to steal
         {
-            // now task contains something executable.
             task();
         }
         else
