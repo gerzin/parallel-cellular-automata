@@ -6,7 +6,7 @@ project(PCA     VERSION 0.1
                 LANGUAGES CXX)
 
 # specify the C++ standard
-set(CMAKE_CXX_STANDARD 17)
+set(CMAKE_CXX_STANDARD 20)
 set(CMAKE_CXX_STANDARD_REQUIRED True)
 set(CMAKE_BUILD_TYPE Release)
 
@@ -14,7 +14,7 @@ set(CMAKE_BUILD_TYPE Release)
 execute_process(
     COMMAND yes
     COMMAND bash mapping_string.sh
-    WORKING_DIRECTORY ${PROJECT_SOURCE_DIR}/include/ff
+    WORKING_DIRECTORY ${PROJECT_SOURCE_DIR}/include/fastflow/ff
     RESULT_VARIABLE FF_MS_RES
     ERROR_QUIET
 )

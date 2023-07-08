@@ -1,6 +1,6 @@
 /**
  * @file omp_automaton.hpp
- * @author gerardo zinno (gerardozinno1@gmail.com)
+ * @author Gerardo Zinno (gerardozinno1@gmail.com)
  * @brief This file contains the definition and implementation of the Cellular Automaton parallelized using OpenMP.
  * @version 0.1
  * @date 2021-12-12
