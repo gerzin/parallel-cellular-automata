@@ -20,6 +20,11 @@ execute_process(
 )
 
 find_package(OpenMP REQUIRED)
+find_package(CUDA)
+
+if(CUDA_FOUND)
+    message("CUDA found")
+endif()
 
 
 # compile options
