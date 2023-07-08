@@ -18,6 +18,11 @@
 #include "parallel_automaton_busyw.hpp"
 #include "omp_automaton.hpp"
 #include "ff_automaton.hpp"
+
+#ifdef __NVCC__
+#include "cuda_automaton.hpp"
+#endif
+
 // clang-format on
 
 /**
@@ -46,6 +51,15 @@ class AbstractCellularAutomaton
      */
     virtual size_t get_generation() = 0;
 };
+
+constexpr bool is_cuda_available()
+{
+#ifdef __CUDACC__
+    return true;
+#else
+    return false;
+#endif
+}
 
 } // namespace ca
 
