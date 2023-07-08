@@ -1,6 +1,6 @@
 /**
  * @file sequential_automaton.hpp
- * @author gerardo zinno (gerardozinno1@gmail.com)
+ * @author Gerardo Zinno (gerardozinno1@gmail.com)
  * @brief This file contains the definition and implementation of the sequential version of the Cellular Automaton.
  * @version 0.1
  *

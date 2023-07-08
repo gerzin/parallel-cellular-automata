@@ -13,8 +13,8 @@
  */
 #ifndef PARALLEL_CELLULAR_AUTOMATA_FASTFLOW_AUTOMATON_HPP
 #define PARALLEL_CELLULAR_AUTOMATA_FASTFLOW_AUTOMATON_HPP
-#include <ff/ff.hpp>
-#include <ff/parallel_for.hpp>
+#include <fastflow/ff/ff.hpp>
+#include <fastflow/ff/parallel_for.hpp>
 #include <iostream>
 #include <thread>
 using namespace std;
